@@ -2,10 +2,37 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useRef, useState } from "react";
 import useEmblaCarousel from "embla-carousel-react";
 import {
-  Users, Fingerprint, CalendarDays, Palmtree, Wallet, LineChart, BarChart3,
-  ShieldCheck, Clock, Eye, Sparkles, TrendingUp, ChevronLeft, ChevronRight,
-  Check, X, Hotel, Stethoscope, HeartPulse, Utensils, Building2, Waves,
-  Star, MapPin, Phone, Mail, Linkedin, Facebook, Instagram, ArrowRight, Play,
+  Users,
+  Fingerprint,
+  CalendarDays,
+  Palmtree,
+  Wallet,
+  LineChart,
+  BarChart3,
+  ShieldCheck,
+  Clock,
+  Eye,
+  Sparkles,
+  TrendingUp,
+  ChevronLeft,
+  ChevronRight,
+  Check,
+  X,
+  Hotel,
+  Stethoscope,
+  HeartPulse,
+  Utensils,
+  Building2,
+  Waves,
+  Star,
+  MapPin,
+  Phone,
+  Mail,
+  Linkedin,
+  Facebook,
+  Instagram,
+  ArrowRight,
+  Play,
 } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
@@ -13,22 +40,27 @@ import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
+import { I18nProvider, useI18n, type Lang } from "@/lib/i18n";
 
 import heroHotel from "@/assets/hero-hotel.jpg";
 import heroHospital from "@/assets/hero-hospital.jpg";
 import heroOffice from "@/assets/hero-office.jpg";
-import mockupPayroll from "@/assets/mockup-payroll.jpg";
-import mockupAttendance from "@/assets/mockup-attendance.jpg";
-import mockupPlanning from "@/assets/mockup-planning.jpg";
+import salarycalculation from "@/assets/salarycalculation.png";
+import presence from "@/assets/presence.png";
+import congé from "@/assets/congé.png";
 
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "DotNet Solutions — Gestion RH & Automatisation pour l'Hôtellerie et la Santé" },
-      { name: "description", content: "Automatisez présences, plannings, paie et rapports RH pour hôtels, hôpitaux, cliniques, resorts, restaurants et entreprises." },
+      { title: "Retex Solution — Gestion RH & Automatisation | DotNet" },
+      {
+        name: "description",
+        content:
+          "Automatisez présences, plannings, paie et rapports RH pour hôtels, hôpitaux, cliniques, resorts, restaurants et entreprises.",
+      },
     ],
   }),
-  component: Index,
+  component: IndexPage,
 });
 
 /* ----------------------------- Reveal on scroll ---------------------------- */
@@ -56,26 +88,49 @@ function useReveal() {
 }
 
 /* ------------------------------- Hero slider ------------------------------- */
-const slides = [
-  {
-    img: heroHotel,
-    title: "Gérez Votre Personnel Comme un Pro",
-    eyebrow: "Hôtellerie & Resorts",
-  },
-  {
-    img: heroHospital,
-    title: "L'Automatisation RH pour l'Hôtellerie & la Santé",
-    eyebrow: "Hôpitaux & Cliniques",
-  },
-  {
-    img: heroOffice,
-    title: "Paie, Présence et Plannings en Un Seul Clic",
-    eyebrow: "Entreprises & Restaurants",
-  },
-];
+const slideImages = [heroHotel, heroHospital, heroOffice];
+
+function LanguageSwitcher({ scrolled }: { scrolled: boolean }) {
+  const { lang, setLang } = useI18n();
+  const options: { code: Lang; label: string }[] = [
+    { code: "fr", label: "FR" },
+    { code: "en", label: "EN" },
+    { code: "ar", label: "AR" },
+  ];
+  return (
+    <div
+      className={`flex items-center rounded-full p-0.5 ${
+        scrolled ? "border border-border/60 bg-card" : "border border-white/25 bg-white/10"
+      }`}
+      role="group"
+      aria-label="Language"
+    >
+      {options.map((o) => (
+        <button
+          key={o.code}
+          type="button"
+          onClick={() => setLang(o.code)}
+          className={`rounded-full px-2.5 py-1 text-xs font-bold transition ${
+            lang === o.code
+              ? scrolled
+                ? "bg-primary text-white"
+                : "bg-white text-primary-deep"
+              : scrolled
+                ? "text-muted-foreground hover:text-foreground"
+                : "text-white/80 hover:text-white"
+          }`}
+        >
+          {o.label}
+        </button>
+      ))}
+    </div>
+  );
+}
 
 function Hero() {
-  const [emblaRef, embla] = useEmblaCarousel({ loop: true, duration: 28 });
+  const { t, lang, dir: pageDir } = useI18n();
+  const slides = t.hero.slides.map((s, i) => ({ ...s, img: slideImages[i] }));
+  const [emblaRef, embla] = useEmblaCarousel({ loop: true, duration: 28, direction: "ltr" });
   const [index, setIndex] = useState(0);
 
   useEffect(() => {
@@ -90,12 +145,16 @@ function Hero() {
     };
   }, [embla]);
 
+  useEffect(() => {
+    embla?.reInit();
+  }, [embla, lang]);
+
   return (
     <section className="relative h-[100svh] min-h-[640px] w-full overflow-hidden">
-      <div className="h-full" ref={emblaRef}>
+      <div className="h-full" ref={emblaRef} dir="ltr">
         <div className="flex h-full">
           {slides.map((s, i) => (
-            <div key={i} className="relative h-full min-w-0 flex-[0_0_100%]">
+            <div key={slideImages[i]} className="relative h-full min-w-0 flex-[0_0_100%]">
               <img
                 src={s.img}
                 alt=""
@@ -106,23 +165,26 @@ function Hero() {
               <div className="absolute inset-0 bg-gradient-to-br from-primary-deep/85 via-primary-deep/55 to-primary/40" />
               <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent" />
               <div className="relative z-10 mx-auto flex h-full max-w-7xl flex-col justify-center px-6 lg:px-12">
-                <div className="max-w-3xl text-white">
+                <div
+                  className={`max-w-3xl text-white ${pageDir === "rtl" ? "ms-auto text-right" : ""}`}
+                  dir={pageDir}
+                >
                   <span className="inline-flex items-center gap-2 rounded-full glass-dark px-4 py-1.5 text-xs font-medium uppercase tracking-widest text-white/90">
                     <Sparkles className="size-3.5 text-accent" /> {s.eyebrow}
                   </span>
                   <h1 className="mt-6 text-balance text-5xl font-extrabold leading-[1.05] tracking-tight sm:text-6xl lg:text-7xl">
                     {s.title}
                   </h1>
-                  <p className="mt-6 max-w-2xl text-lg text-white/85 sm:text-xl">
-                    Automatisez la gestion des présences, plannings, paie, congés, évaluations
-                    et rapports RH depuis une seule plateforme intelligente.
-                  </p>
+                  <p className="mt-6 max-w-2xl text-lg text-white/85 sm:text-xl">{t.hero.subtitle}</p>
                   <div className="mt-10 flex flex-wrap gap-4">
                     <Button variant="hero" size="xl" asChild>
-                      <a href="#contact">Demander une Démo <ArrowRight className="size-5" /></a>
+                      <a href="#contact">
+                        {t.nav.demo}{" "}
+                        <ArrowRight className={`size-5 ${pageDir === "rtl" ? "rotate-180" : ""}`} />
+                      </a>
                     </Button>
                     <Button variant="heroOutline" size="xl">
-                      <Play className="size-5" /> Voir la Présentation
+                      <Play className="size-5" /> {t.hero.presentation}
                     </Button>
                   </div>
                 </div>
@@ -168,8 +230,8 @@ function Hero() {
           <TrendingUp className="size-5" />
         </div>
         <div>
-          <p className="text-sm font-bold text-foreground">+500 entreprises</p>
-          <p className="text-xs text-muted-foreground">nous font confiance</p>
+          <p className="text-sm font-bold text-foreground">{t.hero.trustCount}</p>
+          <p className="text-xs text-muted-foreground">{t.hero.trustLabel}</p>
         </div>
       </div>
     </section>
@@ -178,6 +240,7 @@ function Hero() {
 
 /* -------------------------------- Navigation ------------------------------- */
 function Nav() {
+  const { t } = useI18n();
   const [scrolled, setScrolled] = useState(false);
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 30);
@@ -187,14 +250,13 @@ function Nav() {
   }, []);
 
   const links = [
-    ["Accueil", "#top"],
-    ["Fonctionnalités", "#features"],
-    ["Secteurs", "#secteurs"],
-    ["Avantages", "#avantages"],
-    ["Tarifs", "#tarifs"],
-    ["Blog", "#blog"],
-    ["Contact", "#contact"],
-  ];
+    [t.nav.home, "#top"],
+    [t.nav.features, "#features"],
+    [t.nav.industries, "#secteurs"],
+    [t.nav.benefits, "#avantages"],
+    [t.nav.pricing, "#tarifs"],
+    [t.nav.contact, "#contact"],
+  ] as const;
 
   return (
     <header
@@ -205,10 +267,12 @@ function Nav() {
       <div className="mx-auto flex h-18 max-w-7xl items-center justify-between gap-4 px-6 py-4 lg:px-12">
         <a href="#top" className="flex items-center gap-2.5">
           <div className="grid size-10 place-items-center rounded-xl bg-gradient-to-br from-primary to-primary-deep text-white shadow-[var(--shadow-soft)]">
-            <span className="text-lg font-extrabold">.N</span>
+            <span className="text-lg font-extrabold">R</span>
           </div>
-          <span className={`text-lg font-extrabold tracking-tight ${scrolled ? "text-foreground" : "text-white"}`}>
-            DotNet <span className="text-accent">Solutions</span>
+          <span
+            className={`text-lg font-extrabold tracking-tight ${scrolled ? "text-foreground" : "text-white"}`}
+          >
+            Retex <span className="text-accent">Solution</span>
           </span>
         </a>
 
@@ -228,16 +292,27 @@ function Nav() {
           ))}
         </nav>
 
-        <Button variant="cta" asChild>
-          <a href="#contact">Demander une Démo</a>
-        </Button>
+        <div className="flex items-center gap-3">
+          <LanguageSwitcher scrolled={scrolled} />
+          <Button variant="cta" asChild>
+            <a href="#contact">{t.nav.demo}</a>
+          </Button>
+        </div>
       </div>
     </header>
   );
 }
 
 /* --------------------------------- Counter --------------------------------- */
-function Counter({ to, suffix = "", prefix = "" }: { to: number; suffix?: string; prefix?: string }) {
+function Counter({
+  to,
+  suffix = "",
+  prefix = "",
+}: {
+  to: number;
+  suffix?: string;
+  prefix?: string;
+}) {
   const [val, setVal] = useState(0);
   const ref = useRef<HTMLSpanElement>(null);
   useEffect(() => {
@@ -264,25 +339,40 @@ function Counter({ to, suffix = "", prefix = "" }: { to: number; suffix?: string
   }, [to]);
   return (
     <span ref={ref}>
-      {prefix}{val.toLocaleString("fr-FR")}{suffix}
+      {prefix}
+      {val.toLocaleString("fr-FR")}
+      {suffix}
     </span>
   );
 }
 
 /* ----------------------------------- Trust --------------------------------- */
 function Trust() {
-  const logos = ["Marriott", "Hilton", "Mayo Clinic", "Accor", "Sofitel", "Cleveland", "Four Seasons", "Hyatt"];
+  const { t } = useI18n();
+  const logos = [
+    "Marriott",
+    "Hilton",
+    "Mayo Clinic",
+    "Accor",
+    "Sofitel",
+    "Cleveland",
+    "Four Seasons",
+    "Hyatt",
+  ];
   return (
     <section className="relative border-y border-border bg-secondary/40 py-16">
       <div className="mx-auto max-w-7xl px-6 lg:px-12">
         <h2 data-reveal className="text-center text-3xl font-bold tracking-tight sm:text-4xl">
-          Approuvé par des Organisations en Pleine Croissance
+          {t.trust.title}
         </h2>
 
         <div className="mt-10 overflow-hidden [mask-image:linear-gradient(90deg,transparent,#000_10%,#000_90%,transparent)]">
           <div className="flex w-max animate-marquee gap-14">
             {[...logos, ...logos].map((l, i) => (
-              <span key={i} className="whitespace-nowrap text-2xl font-extrabold tracking-tight text-muted-foreground/60">
+              <span
+                key={i}
+                className="whitespace-nowrap text-2xl font-extrabold tracking-tight text-muted-foreground/60"
+              >
                 {l}
               </span>
             ))}
@@ -291,10 +381,10 @@ function Trust() {
 
         <div className="mt-14 grid grid-cols-2 gap-4 sm:grid-cols-4 sm:gap-6">
           {[
-            { v: 500, suffix: "+", l: "Entreprises" },
-            { v: 98, suffix: "%", l: "Précision Paie" },
-            { v: 70, prefix: "-", suffix: "%", l: "Temps Administratif" },
-            { v: 24, suffix: "/7", l: "Support" },
+            { v: 500, suffix: "+", l: t.trust.stats[0].l },
+            { v: 98, suffix: "%", l: t.trust.stats[1].l },
+            { v: 70, prefix: "-", suffix: "%", l: t.trust.stats[2].l },
+            { v: 24, suffix: "/7", l: t.trust.stats[3].l },
           ].map((s, i) => (
             <Card
               key={i}
@@ -315,38 +405,25 @@ function Trust() {
 
 /* ------------------------------- Clarity blocks ---------------------------- */
 function Clarity() {
-  const blocks = [
-    {
-      tag: "Paie",
-      title: "Fini la Paie Approximative",
-      text: "Les fiches de paie manuelles, les erreurs de calcul, le stress de fin de mois. DotNet Solutions calcule automatiquement salaires, heures sup et déductions — sans erreur, sans retard.",
-      img: mockupPayroll,
-    },
-    {
-      tag: "Présence",
-      title: "Chaque Présence Comptée, Chaque Minute Tracée",
-      text: "Connectez vos badgeuses biométriques et laissez la plateforme centraliser les présences en temps réel. Plus de feuilles Excel, plus de doutes.",
-      img: mockupAttendance,
-    },
-    {
-      tag: "Planning",
-      title: "Intelligent Là Où Ça Compte",
-      text: "On ne fait pas qu'automatiser, on anticipe. La plateforme apprend les rythmes de vos équipes et structure vos journées RH.",
-      img: mockupPlanning,
-    },
-  ];
-
+  const { t } = useI18n();
+  const blockImages = [salarycalculation, presence, congé];
+  const blocks = t.clarity.blocks.map((b, i) => ({ ...b, img: blockImages[i] }));
   return (
     <section className="relative overflow-hidden bg-mesh py-24 sm:py-32">
       <div className="mx-auto max-w-7xl px-6 lg:px-12">
         <div className="mx-auto max-w-3xl text-center">
-          <Badge className="bg-accent-soft text-accent-foreground hover:bg-accent-soft">Clarté</Badge>
-          <h2 data-reveal className="mt-4 text-balance text-4xl font-extrabold tracking-tight sm:text-5xl lg:text-6xl">
-            Conçu pour Ramener la <span className="text-primary-deep">Clarté</span>
+          <Badge className="bg-accent-soft text-accent-foreground hover:bg-accent-soft">
+            {t.clarity.badge}
+          </Badge>
+          <h2
+            data-reveal
+            className="mt-4 text-balance text-4xl font-extrabold tracking-tight sm:text-5xl lg:text-6xl"
+          >
+            {t.clarity.title}{" "}
+            <span className="text-primary-deep">{t.clarity.titleHighlight}</span>
           </h2>
           <p data-reveal className="mt-5 text-lg text-muted-foreground">
-            Plus de plannings perdus, plus de stress de fin de mois. Juste de la fluidité,
-            de la sérénité et la maîtrise totale de vos équipes.
+            {t.clarity.subtitle}
           </p>
         </div>
 
@@ -360,17 +437,30 @@ function Clarity() {
               }`}
             >
               <div>
-                <Badge className="bg-primary-soft text-primary-deep hover:bg-primary-soft">{b.tag}</Badge>
-                <h3 className="mt-4 text-balance text-3xl font-bold tracking-tight sm:text-4xl">{b.title}</h3>
+                <Badge className="bg-primary-soft text-primary-deep hover:bg-primary-soft">
+                  {b.tag}
+                </Badge>
+                <h3 className="mt-4 text-balance text-3xl font-bold tracking-tight sm:text-4xl">
+                  {b.title}
+                </h3>
                 <p className="mt-5 text-lg leading-relaxed text-muted-foreground">{b.text}</p>
                 <div className="mt-7 flex flex-wrap gap-3">
-                  <Button variant="cta" size="lg">En savoir plus <ArrowRight className="size-4" /></Button>
+                  <Button variant="cta" size="lg">
+                    {t.clarity.learnMore} <ArrowRight className="size-4" />
+                  </Button>
                 </div>
               </div>
               <div className="relative">
                 <div className="absolute -inset-6 rounded-[2rem] bg-gradient-to-br from-primary/30 to-accent/20 blur-2xl" />
                 <div className="relative overflow-hidden rounded-3xl border border-border bg-card shadow-[var(--shadow-soft)]">
-                  <img src={b.img} alt={b.title} loading="lazy" width={1400} height={1000} className="block w-full" />
+                  <img
+                    src={b.img}
+                    alt={b.title}
+                    loading="lazy"
+                    width={1400}
+                    height={1000}
+                    className="block w-full"
+                  />
                 </div>
               </div>
             </div>
@@ -380,33 +470,36 @@ function Clarity() {
         {/* Avant / Après */}
         <div data-reveal className="mt-28 grid gap-6 lg:grid-cols-2">
           <Card className="rounded-3xl border-border/60 bg-muted/60 p-8">
-            <h4 className="text-sm font-semibold uppercase tracking-widest text-muted-foreground">Avant DotNet Solutions</h4>
+            <h4 className="text-sm font-semibold uppercase tracking-widest text-muted-foreground">
+              {t.clarity.before}
+            </h4>
             <ul className="mt-6 space-y-4">
-              {["Plannings perdus", "Erreurs de paie", "Pointages manuels", "Suivi RH éparpillé", "Équipes frustrées", "Reporting impossible"].map(
-                (i) => (
-                  <li key={i} className="flex items-center gap-3 text-base text-foreground/80">
-                    <span className="grid size-8 place-items-center rounded-full bg-destructive/15 text-destructive">
-                      <X className="size-4" />
-                    </span>
-                    {i}
-                  </li>
-                ),
-              )}
+              {t.clarity.beforeItems.map((i) => (
+                <li key={i} className="flex items-center gap-3 text-base text-foreground/80">
+                  <span className="grid size-8 place-items-center rounded-full bg-destructive/15 text-destructive">
+                    <X className="size-4" />
+                  </span>
+                  {i}
+                </li>
+              ))}
             </ul>
           </Card>
           <Card className="rounded-3xl border-primary/30 bg-primary-soft p-8 shadow-[var(--shadow-soft)]">
-            <h4 className="text-sm font-semibold uppercase tracking-widest text-primary-deep">Après DotNet Solutions</h4>
+            <h4 className="text-sm font-semibold uppercase tracking-widest text-primary-deep">
+              {t.clarity.after}
+            </h4>
             <ul className="mt-6 space-y-4">
-              {["Plannings centralisés", "Paie automatique", "Présence en temps réel", "RH unifiée", "Équipes alignées", "Rapports instantanés"].map(
-                (i) => (
-                  <li key={i} className="flex items-center gap-3 text-base font-medium text-primary-deep">
-                    <span className="grid size-8 place-items-center rounded-full bg-accent text-accent-foreground">
-                      <Check className="size-4" />
-                    </span>
-                    {i}
-                  </li>
-                ),
-              )}
+              {t.clarity.afterItems.map((i) => (
+                <li
+                  key={i}
+                  className="flex items-center gap-3 text-base font-medium text-primary-deep"
+                >
+                  <span className="grid size-8 place-items-center rounded-full bg-accent text-accent-foreground">
+                    <Check className="size-4" />
+                  </span>
+                  {i}
+                </li>
+              ))}
             </ul>
           </Card>
         </div>
@@ -416,24 +509,33 @@ function Clarity() {
 }
 
 /* -------------------------------- Features --------------------------------- */
-const features = [
-  { icon: Users, t: "Gestion des Employés", d: "Profils, contrats, départements et dossiers RH centralisés." },
-  { icon: Fingerprint, t: "Présence & Biométrie", d: "Connectez vos pointeuses, suivi automatique des présences." },
-  { icon: CalendarDays, t: "Planification des Shifts", d: "Créez les plannings, comparez heures prévues vs réelles." },
-  { icon: Palmtree, t: "Gestion des Congés", d: "Congés payés, maladie, vacances gérés simplement." },
-  { icon: Wallet, t: "Paie Automatisée", d: "Calcul auto des salaires, heures sup, primes et déductions." },
-  { icon: LineChart, t: "Évaluation de Performance", d: "Suivi et notation des performances de vos employés." },
-  { icon: BarChart3, t: "Rapports & Analytics", d: "Rapports de présence, paie, heures sup et insights RH." },
+const featureIcons = [
+  Users,
+  Fingerprint,
+  CalendarDays,
+  Palmtree,
+  Wallet,
+  LineChart,
+  BarChart3,
 ];
 
 function Features() {
+  const { t } = useI18n();
+  const features = t.features.items.map((f, i) => ({ ...f, icon: featureIcons[i] }));
   return (
     <section id="features" className="relative py-24 sm:py-32">
       <div className="mx-auto max-w-7xl px-6 lg:px-12">
         <div className="mx-auto max-w-3xl text-center">
-          <Badge className="bg-primary-soft text-primary-deep hover:bg-primary-soft">Fonctionnalités</Badge>
-          <h2 data-reveal className="mt-4 text-balance text-4xl font-extrabold tracking-tight sm:text-5xl">
-            Une Plateforme. <span className="text-primary-deep">Toutes Vos Opérations RH.</span>
+          <Badge className="bg-primary-soft text-primary-deep hover:bg-primary-soft">
+            {t.features.badge}
+          </Badge>
+          <h2
+            data-reveal
+            className="mt-4 text-balance text-4xl font-extrabold tracking-tight sm:text-5xl"
+          >
+            {t.features.title}
+            <br />
+            <span className="text-primary-deep">{t.features.titleHighlight}</span>
           </h2>
         </div>
 
@@ -462,22 +564,23 @@ function Features() {
 
 /* --------------------------------- Benefits -------------------------------- */
 function Benefits() {
-  const items = [
-    { icon: Clock, t: "Réduisez la charge administrative" },
-    { icon: ShieldCheck, t: "Améliorez la précision de la paie" },
-    { icon: TrendingUp, t: "Augmentez l'efficacité opérationnelle" },
-    { icon: Eye, t: "Visibilité RH en temps réel" },
-    { icon: Fingerprint, t: "Minimisez les erreurs de présence" },
-    { icon: Sparkles, t: "Développez vos opérations avec confiance" },
-  ];
+  const { t } = useI18n();
+  const benefitIcons = [Clock, ShieldCheck, TrendingUp, Eye, Fingerprint, Sparkles];
+  const items = t.benefits.items.map((label, i) => ({ icon: benefitIcons[i], t: label }));
   return (
     <section id="avantages" className="relative overflow-hidden py-24 sm:py-32">
       <div className="absolute inset-0 bg-mesh opacity-80" />
       <div className="relative mx-auto max-w-7xl px-6 lg:px-12">
         <div className="mx-auto max-w-3xl text-center">
-          <Badge className="bg-accent-soft text-accent-foreground hover:bg-accent-soft">Avantages</Badge>
-          <h2 data-reveal className="mt-4 text-balance text-4xl font-extrabold tracking-tight sm:text-5xl">
-            Pourquoi Choisir <span className="text-primary-deep">DotNet Solutions</span> ?
+          <Badge className="bg-accent-soft text-accent-foreground hover:bg-accent-soft">
+            {t.benefits.badge}
+          </Badge>
+          <h2
+            data-reveal
+            className="mt-4 text-balance text-4xl font-extrabold tracking-tight sm:text-5xl"
+          >
+            {t.benefits.title} <span className="text-primary-deep">{t.benefits.titleHighlight}</span>
+            {t.benefits.titleSuffix}
           </h2>
         </div>
         <div className="mt-16 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
@@ -488,7 +591,10 @@ function Benefits() {
               className="flex items-start gap-5 rounded-3xl border-border/60 bg-card/80 p-7 backdrop-blur-sm transition hover:-translate-y-1 hover:shadow-[var(--shadow-soft)]"
             >
               <div className="grid size-14 shrink-0 place-items-center rounded-full bg-primary-soft">
-                <b.icon className="size-7 text-accent-foreground" style={{ color: "oklch(0.65 0.2 80)" }} />
+                <b.icon
+                  className="size-7 text-accent-foreground"
+                  style={{ color: "oklch(0.65 0.2 80)" }}
+                />
               </div>
               <p className="pt-2 text-lg font-semibold text-foreground">{b.t}</p>
             </Card>
@@ -501,21 +607,19 @@ function Benefits() {
 
 /* -------------------------------- Industries ------------------------------- */
 function Industries() {
-  const list = [
-    { icon: Hotel, t: "Hôtels" },
-    { icon: Stethoscope, t: "Hôpitaux" },
-    { icon: HeartPulse, t: "Cliniques" },
-    { icon: Waves, t: "Resorts" },
-    { icon: Utensils, t: "Restaurants" },
-    { icon: Building2, t: "Entreprises" },
-  ];
+  const { t } = useI18n();
+  const industryIcons = [Hotel, Stethoscope, HeartPulse, Waves, Utensils, Building2];
+  const list = t.industries.items.map((label, i) => ({ icon: industryIcons[i], t: label }));
   return (
     <section id="secteurs" className="bg-primary-soft/40 py-24 sm:py-32">
       <div className="mx-auto max-w-7xl px-6 lg:px-12">
         <div className="mx-auto max-w-3xl text-center">
-          <Badge className="bg-primary text-primary-foreground hover:bg-primary">Secteurs</Badge>
-          <h2 data-reveal className="mt-4 text-balance text-4xl font-extrabold tracking-tight sm:text-5xl">
-            Conçu Pour Votre Secteur
+          <Badge className="bg-primary text-primary-foreground hover:bg-primary">{t.industries.badge}</Badge>
+          <h2
+            data-reveal
+            className="mt-4 text-balance text-4xl font-extrabold tracking-tight sm:text-5xl"
+          >
+            {t.industries.title}
           </h2>
         </div>
         <div className="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
@@ -529,9 +633,7 @@ function Industries() {
                 <s.icon className="size-8" />
               </div>
               <h3 className="mt-6 text-2xl font-bold tracking-tight">{s.t}</h3>
-              <p className="mt-2 text-muted-foreground">
-                Une gestion RH adaptée aux contraintes opérationnelles spécifiques.
-              </p>
+              <p className="mt-2 text-muted-foreground">{t.industries.desc}</p>
             </Card>
           ))}
         </div>
@@ -542,27 +644,30 @@ function Industries() {
 
 /* ------------------------------ How it works ------------------------------- */
 function HowItWorks() {
-  const steps = [
-    "Ajoutez Vos Employés",
-    "Connectez les Appareils de Présence",
-    "Gérez les Plannings",
-    "Générez Paie & Rapports",
-  ];
+  const { t } = useI18n();
   return (
     <section className="py-24 sm:py-32">
       <div className="mx-auto max-w-7xl px-6 lg:px-12">
         <div className="mx-auto max-w-3xl text-center">
-          <Badge className="bg-accent-soft text-accent-foreground hover:bg-accent-soft">Démarrage</Badge>
-          <h2 data-reveal className="mt-4 text-balance text-4xl font-extrabold tracking-tight sm:text-5xl">
-            Comment Ça Marche
+          <Badge className="bg-accent-soft text-accent-foreground hover:bg-accent-soft">
+            {t.howItWorks.badge}
+          </Badge>
+          <h2
+            data-reveal
+            className="mt-4 text-balance text-4xl font-extrabold tracking-tight sm:text-5xl"
+          >
+            {t.howItWorks.title}
           </h2>
         </div>
         <div className="relative mt-16">
           <div className="absolute left-0 right-0 top-9 hidden border-t-2 border-dashed border-accent lg:block" />
           <div className="grid gap-10 lg:grid-cols-4">
-            {steps.map((s, i) => (
+            {t.howItWorks.steps.map((s, i) => (
               <div key={i} data-reveal className="relative flex flex-col items-center text-center">
-                <div className="relative z-10 grid size-18 place-items-center rounded-full bg-primary text-2xl font-extrabold text-white shadow-[var(--shadow-soft)]" style={{ width: "4.5rem", height: "4.5rem" }}>
+                <div
+                  className="relative z-10 grid size-18 place-items-center rounded-full bg-primary text-2xl font-extrabold text-white shadow-[var(--shadow-soft)]"
+                  style={{ width: "4.5rem", height: "4.5rem" }}
+                >
                   {i + 1}
                 </div>
                 <h3 className="mt-6 text-lg font-bold">{s}</h3>
@@ -576,47 +681,144 @@ function HowItWorks() {
 }
 
 /* ------------------------------ Testimonials ------------------------------- */
+const TEMOIGNAGE_COMPLET = "/videos/temoignages/tem-summary.mp4";
+
+const testimonialNames = [
+  "Rami Adel",
+  "Général Hisham Lotfy",
+  "Mohamed Sedky",
+  "Sameh Fahmy",
+  "Qasr Al-Salam",
+] as const;
+
+const testimonialSources = [
+  "/videos/temoignages/tem1.mp4",
+  "/videos/temoignages/tem2.mp4",
+  "/videos/temoignages/tem3.mp4",
+  "/videos/temoignages/tem4.mp4",
+  "/videos/temoignages/tem5.mp4",
+] as const;
+
+function TestimonialVideoCard({
+  name,
+  role,
+  src,
+  featured = false,
+}: {
+  name: string;
+  role: string;
+  src: string;
+  featured?: boolean;
+}) {
+  return (
+    <Card className="overflow-hidden rounded-3xl border-border/60 bg-card p-0 shadow-[var(--shadow-card)]">
+      <div className="relative aspect-video w-full bg-primary-deep/10">
+        <video
+          className="h-full w-full object-cover"
+          controls
+          preload="metadata"
+          playsInline
+          aria-label={`Témoignage vidéo de ${name}`}
+        >
+          <source src={src} type="video/mp4" />
+        </video>
+      </div>
+      <div className={`flex items-center gap-3 ${featured ? "p-6 sm:p-8" : "p-5"}`}>
+        <div className="grid size-12 shrink-0 place-items-center rounded-full bg-primary-soft text-primary-deep font-bold">
+          {name.charAt(0)}
+        </div>
+        <div className="min-w-0">
+          <p className="font-bold">{name}</p>
+          <p className="text-sm text-muted-foreground">{role}</p>
+        </div>
+        <div className="ml-auto hidden gap-0.5 text-accent sm:flex">
+          {Array.from({ length: 5 }).map((_, k) => (
+            <Star key={k} className="size-4 fill-current" />
+          ))}
+        </div>
+      </div>
+    </Card>
+  );
+}
+
 function Testimonials() {
-  const items = [
-    { n: "Sophie L.", r: "DRH, Resort Méditerranée", q: "En 3 semaines, fini les erreurs de paie. Mes équipes sont enfin alignées." },
-    { n: "Dr. Karim B.", r: "Directeur Clinique El Salam", q: "Le suivi des présences en temps réel a transformé notre planification des gardes." },
-    { n: "Mona F.", r: "Responsable RH, Hôtel Marina", q: "On a gagné 70% de temps administratif. Le ROI est immédiat." },
-    { n: "Antoine R.", r: "Directeur, Groupe Restaurants Saveur", q: "Une interface limpide, des rapports prêts à la seconde. Indispensable." },
-  ];
-  const [emblaRef] = useEmblaCarousel({ loop: true, align: "start" });
+  const { t, lang } = useI18n();
+  const testimonialVideos = testimonialNames.map((name, i) => ({
+    name,
+    role: t.testimonials.roles[i],
+    src: testimonialSources[i],
+  }));
+  const [emblaRef, embla] = useEmblaCarousel({ loop: true, align: "start", direction: "ltr" });
+
+  useEffect(() => {
+    embla?.reInit();
+  }, [embla, lang]);
   return (
     <section className="bg-secondary/30 py-24 sm:py-32">
       <div className="mx-auto max-w-7xl px-6 lg:px-12">
         <div className="mx-auto max-w-3xl text-center">
-          <Badge className="bg-primary-soft text-primary-deep hover:bg-primary-soft">Témoignages</Badge>
-          <h2 data-reveal className="mt-4 text-balance text-4xl font-extrabold tracking-tight sm:text-5xl">
-            Ce Que Disent Nos Clients
+          <Badge className="bg-primary-soft text-primary-deep hover:bg-primary-soft">
+            {t.testimonials.badge}
+          </Badge>
+          <h2
+            data-reveal
+            className="mt-4 text-balance text-4xl font-extrabold tracking-tight sm:text-5xl"
+          >
+            {t.testimonials.title}
           </h2>
+          <p data-reveal className="mt-4 text-lg text-muted-foreground">
+            {t.testimonials.subtitle}
+          </p>
         </div>
-        <div className="mt-14 overflow-hidden" ref={emblaRef}>
-          <div className="flex gap-6">
-            {items.map((t, i) => (
-              <Card
-                key={i}
-                className="min-w-0 flex-[0_0_85%] rounded-3xl border-border/60 bg-card p-8 shadow-[var(--shadow-card)] sm:flex-[0_0_45%] lg:flex-[0_0_31%]"
+
+        <div data-reveal className="mt-14">
+          <div className="mb-4 flex items-center gap-2 text-sm font-semibold uppercase tracking-wider text-primary-deep">
+            <Play className="size-4" />
+            {t.testimonials.all}
+          </div>
+          <TestimonialVideoCard
+            featured
+            name={t.testimonials.featuredName}
+            role={t.testimonials.featuredRole}
+            src={TEMOIGNAGE_COMPLET}
+          />
+        </div>
+
+        <div className="relative mt-14">
+          <div className="mb-6 flex items-end justify-between gap-4">
+            <p className="text-sm font-semibold uppercase tracking-wider text-muted-foreground">
+              {t.testimonials.individual}
+            </p>
+            <div className="flex gap-2">
+              <button
+                type="button"
+                aria-label={t.testimonials.prev}
+                onClick={() => embla?.scrollPrev()}
+                className="grid size-10 place-items-center rounded-full border border-border/60 bg-card text-foreground transition hover:bg-secondary"
               >
-                <div className="flex gap-1 text-accent">
-                  {Array.from({ length: 5 }).map((_, k) => (
-                    <Star key={k} className="size-5 fill-current" />
-                  ))}
+                <ChevronLeft className="size-5" />
+              </button>
+              <button
+                type="button"
+                aria-label={t.testimonials.next}
+                onClick={() => embla?.scrollNext()}
+                className="grid size-10 place-items-center rounded-full border border-border/60 bg-card text-foreground transition hover:bg-secondary"
+              >
+                <ChevronRight className="size-5" />
+              </button>
+            </div>
+          </div>
+          <div className="overflow-hidden" ref={emblaRef} dir="ltr">
+            <div className="flex gap-6">
+              {testimonialVideos.map((t) => (
+                <div
+                  key={t.src}
+                  className="min-w-0 flex-[0_0_88%] sm:flex-[0_0_48%] lg:flex-[0_0_32%]"
+                >
+                  <TestimonialVideoCard name={t.name} role={t.role} src={t.src} />
                 </div>
-                <p className="mt-5 text-lg leading-relaxed text-foreground/90">“{t.q}”</p>
-                <div className="mt-6 flex items-center gap-3">
-                  <div className="grid size-12 place-items-center rounded-full bg-primary-soft text-primary-deep font-bold">
-                    {t.n.charAt(0)}
-                  </div>
-                  <div>
-                    <p className="font-bold">{t.n}</p>
-                    <p className="text-sm text-muted-foreground">{t.r}</p>
-                  </div>
-                </div>
-              </Card>
-            ))}
+              ))}
+            </div>
           </div>
         </div>
       </div>
@@ -626,34 +828,23 @@ function Testimonials() {
 
 /* ---------------------------------- Pricing -------------------------------- */
 function Pricing() {
-  const plans = [
-    {
-      n: "Starter",
-      d: "Pour les petites équipes qui démarrent leur structuration RH.",
-      f: ["Jusqu'à 25 employés", "Présence & badgeuse", "Gestion des congés", "Rapports de base", "Support email"],
-    },
-    {
-      n: "Professional",
-      d: "Le choix des hôtels, cliniques et restaurants en croissance.",
-      popular: true,
-      f: ["Jusqu'à 250 employés", "Paie automatisée complète", "Planification multi-sites", "Évaluations & performance", "Support prioritaire 24/7", "Intégrations biométriques"],
-    },
-    {
-      n: "Enterprise",
-      d: "Pour les groupes multi-sites avec besoins sur mesure.",
-      f: ["Employés illimités", "Workflows personnalisés", "API & intégrations SI", "Manager dédié", "SLA contractuel", "Conformité avancée"],
-    },
-  ];
+  const { t } = useI18n();
+  const plans = t.pricing.plans.map((p, i) => ({ ...p, popular: i === 1 }));
   return (
     <section id="tarifs" className="py-24 sm:py-32">
       <div className="mx-auto max-w-7xl px-6 lg:px-12">
         <div className="mx-auto max-w-3xl text-center">
-          <Badge className="bg-accent-soft text-accent-foreground hover:bg-accent-soft">Tarifs</Badge>
-          <h2 data-reveal className="mt-4 text-balance text-4xl font-extrabold tracking-tight sm:text-5xl">
-            Une Offre Pour Chaque Étape
+          <Badge className="bg-accent-soft text-accent-foreground hover:bg-accent-soft">
+            {t.pricing.badge}
+          </Badge>
+          <h2
+            data-reveal
+            className="mt-4 text-balance text-4xl font-extrabold tracking-tight sm:text-5xl"
+          >
+            {t.pricing.title}
           </h2>
           <p data-reveal className="mt-4 text-lg text-muted-foreground">
-            Des plans flexibles, sans engagement caché. Parlons de vos besoins.
+            {t.pricing.subtitle}
           </p>
         </div>
         <div className="mt-16 grid gap-6 lg:grid-cols-3">
@@ -669,7 +860,7 @@ function Pricing() {
             >
               {p.popular && (
                 <span className="absolute -top-3 left-1/2 -translate-x-1/2 rounded-full bg-accent px-4 py-1 text-xs font-bold uppercase tracking-widest text-accent-foreground shadow">
-                  Populaire
+                  {t.pricing.popular}
                 </span>
               )}
               <h3 className="text-2xl font-extrabold tracking-tight">{p.n}</h3>
@@ -686,63 +877,8 @@ function Pricing() {
               </ul>
               <div className="mt-8 grow" />
               <Button variant={p.popular ? "cta" : "default"} size="lg" className="w-full" asChild>
-                <a href="#contact">Contactez les Ventes</a>
+                <a href="#contact">{t.pricing.cta}</a>
               </Button>
-            </Card>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-}
-
-/* ----------------------------------- Blog ---------------------------------- */
-function Blog() {
-  const posts = [
-    { c: "RH", t: "Bonnes Pratiques de Gestion RH", d: "12 Juin 2026", img: heroOffice },
-    { c: "Hôtellerie", t: "Guide d'Automatisation RH Hôtelière", d: "5 Juin 2026", img: heroHotel },
-    { c: "Paie", t: "Stratégies d'Optimisation de la Paie", d: "28 Mai 2026", img: mockupPayroll },
-    { c: "Santé", t: "Transformation Digitale pour la Santé", d: "20 Mai 2026", img: heroHospital },
-  ];
-  return (
-    <section id="blog" className="bg-secondary/30 py-24 sm:py-32">
-      <div className="mx-auto max-w-7xl px-6 lg:px-12">
-        <div className="flex items-end justify-between gap-4">
-          <div>
-            <Badge className="bg-primary-soft text-primary-deep hover:bg-primary-soft">Blog</Badge>
-            <h2 data-reveal className="mt-4 text-balance text-4xl font-extrabold tracking-tight sm:text-5xl">
-              Ressources & Insights
-            </h2>
-          </div>
-          <a href="#" className="hidden text-sm font-semibold text-primary-deep hover:underline sm:inline-flex">
-            Voir tout →
-          </a>
-        </div>
-        <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-          {posts.map((p, i) => (
-            <Card
-              key={i}
-              data-reveal
-              className="group flex flex-col overflow-hidden rounded-3xl border-border/60 bg-card transition-all hover:-translate-y-1 hover:shadow-[var(--shadow-soft)]"
-            >
-              <div className="relative aspect-[4/3] overflow-hidden">
-                <img
-                  src={p.img}
-                  alt={p.t}
-                  loading="lazy"
-                  className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
-                />
-                <span className="absolute left-3 top-3 rounded-full bg-accent px-3 py-1 text-xs font-bold uppercase tracking-wider text-accent-foreground">
-                  {p.c}
-                </span>
-              </div>
-              <div className="flex flex-1 flex-col p-6">
-                <p className="text-xs font-medium uppercase tracking-wider text-muted-foreground">{p.d}</p>
-                <h3 className="mt-2 grow text-lg font-bold leading-snug">{p.t}</h3>
-                <a href="#" className="mt-4 inline-flex items-center gap-1 text-sm font-semibold text-primary-deep">
-                  Lire l'article <ArrowRight className="size-4" />
-                </a>
-              </div>
             </Card>
           ))}
         </div>
@@ -753,21 +889,29 @@ function Blog() {
 
 /* ----------------------------------- CTA ----------------------------------- */
 function FinalCTA() {
+  const { t } = useI18n();
   return (
     <section className="relative overflow-hidden py-28 sm:py-36">
       <div className="absolute inset-0 bg-gradient-to-br from-primary-soft via-white to-accent-soft" />
       <div className="absolute -left-32 top-10 size-[28rem] rounded-full bg-primary/30 blur-3xl" />
       <div className="absolute -right-32 bottom-10 size-[28rem] rounded-full bg-accent/40 blur-3xl" />
       <div className="relative mx-auto max-w-4xl px-6 text-center lg:px-12">
-        <h2 data-reveal className="text-balance text-5xl font-extrabold tracking-tight sm:text-6xl lg:text-7xl">
-          Prêt à Transformer Votre <span className="text-primary-deep">Gestion RH</span> ?
+        <h2
+          data-reveal
+          className="text-balance text-5xl font-extrabold tracking-tight sm:text-6xl lg:text-7xl"
+        >
+          {t.finalCta.title}{" "}
+          <span className="text-primary-deep">{t.finalCta.titleHighlight}</span>
+          {t.finalCta.titleEnd}
         </h2>
         <p data-reveal className="mx-auto mt-6 max-w-2xl text-lg text-muted-foreground sm:text-xl">
-          Rejoignez les organisations qui simplifient leurs opérations RH et améliorent leur productivité.
+          {t.finalCta.subtitle}
         </p>
         <div className="mt-10">
           <Button variant="hero" size="xl" asChild>
-            <a href="#contact">Planifier une Démo <ArrowRight className="size-5" /></a>
+            <a href="#contact">
+              {t.finalCta.cta} <ArrowRight className="size-5" />
+            </a>
           </Button>
         </div>
       </div>
@@ -777,18 +921,19 @@ function FinalCTA() {
 
 /* --------------------------------- Contact --------------------------------- */
 function Contact() {
+  const { t } = useI18n();
   return (
     <section id="contact" className="py-24 sm:py-32">
       <div className="mx-auto max-w-7xl px-6 lg:px-12">
         <div className="grid gap-12 lg:grid-cols-2">
           <div data-reveal>
-            <Badge className="bg-accent-soft text-accent-foreground hover:bg-accent-soft">Contact</Badge>
+            <Badge className="bg-accent-soft text-accent-foreground hover:bg-accent-soft">
+              {t.contact.badge}
+            </Badge>
             <h2 className="mt-4 text-balance text-4xl font-extrabold tracking-tight sm:text-5xl">
-              Parlons de Vos Équipes
+              {t.contact.title}
             </h2>
-            <p className="mt-4 text-lg text-muted-foreground">
-              Un expert RH vous recontacte sous 24h pour planifier une démo personnalisée.
-            </p>
+            <p className="mt-4 text-lg text-muted-foreground">{t.contact.subtitle}</p>
             <form
               className="mt-8 space-y-4"
               onSubmit={(e) => {
@@ -796,31 +941,36 @@ function Contact() {
               }}
             >
               <div className="grid gap-4 sm:grid-cols-2">
-                <Input placeholder="Nom complet" className="h-12 rounded-xl" required />
-                <Input type="email" placeholder="Email professionnel" className="h-12 rounded-xl" required />
+                <Input placeholder={t.contact.name} className="h-12 rounded-xl" required />
+                <Input
+                  type="email"
+                  placeholder={t.contact.email}
+                  className="h-12 rounded-xl"
+                  required
+                />
               </div>
-              <Input placeholder="Téléphone" className="h-12 rounded-xl" />
-              <Textarea placeholder="Parlez-nous de vos besoins RH..." rows={5} className="rounded-xl" />
+              <Input placeholder={t.contact.phone} className="h-12 rounded-xl" />
+              <Textarea placeholder={t.contact.message} rows={5} className="rounded-xl" />
               <Button type="submit" variant="cta" size="lg" className="w-full sm:w-auto">
-                Envoyer la demande <ArrowRight className="size-4" />
+                {t.contact.send} <ArrowRight className="size-4" />
               </Button>
             </form>
           </div>
 
           <div data-reveal className="space-y-6">
             <Card className="rounded-3xl border-border/60 bg-gradient-to-br from-primary-soft to-white p-8">
-              <h3 className="text-xl font-bold">Nos Bureaux</h3>
+              <h3 className="text-xl font-bold">{t.contact.offices}</h3>
               <ul className="mt-6 space-y-5">
                 {[
-                  { i: MapPin, t: "Miami, Alexandrie, Égypte" },
-                  { i: Phone, t: "+20 122 426 4564" },
-                  { i: Mail, t: "info@dotnetsolutions.com" },
+                  { i: MapPin, text: t.contact.location },
+                  { i: Phone, text: t.contact.phoneNum },
+                  { i: Mail, text: t.contact.mail },
                 ].map((c, i) => (
                   <li key={i} className="flex items-center gap-4">
                     <span className="grid size-12 place-items-center rounded-2xl bg-accent text-accent-foreground">
                       <c.i className="size-5" />
                     </span>
-                    <span className="font-medium">{c.t}</span>
+                    <span className="font-medium">{c.text}</span>
                   </li>
                 ))}
               </ul>
@@ -833,8 +983,8 @@ function Contact() {
                     <div className="mx-auto grid size-16 place-items-center rounded-full bg-accent text-accent-foreground shadow-[var(--shadow-glow-accent)]">
                       <MapPin className="size-7" />
                     </div>
-                    <p className="mt-3 font-bold text-primary-deep">Miami District, Alexandrie</p>
-                    <p className="text-sm text-muted-foreground">Égypte</p>
+                    <p className="mt-3 font-bold text-primary-deep">{t.contact.mapTitle}</p>
+                    <p className="text-sm text-muted-foreground">{t.contact.mapCountry}</p>
                   </div>
                 </div>
               </div>
@@ -848,6 +998,7 @@ function Contact() {
 
 /* ---------------------------------- Footer --------------------------------- */
 function Footer() {
+  const { t } = useI18n();
   return (
     <footer className="bg-primary-deep text-white">
       <div className="mx-auto max-w-7xl px-6 py-16 lg:px-12">
@@ -855,34 +1006,68 @@ function Footer() {
           <div>
             <div className="flex items-center gap-2.5">
               <div className="grid size-10 place-items-center rounded-xl bg-accent text-accent-foreground">
-                <span className="text-lg font-extrabold">.N</span>
+                <span className="text-lg font-extrabold">R</span>
               </div>
-              <span className="text-lg font-extrabold">DotNet Solutions</span>
+              <div>
+                <span className="text-lg font-extrabold">{t.brand.solution}</span>
+                <p className="text-xs text-white/60">{t.brand.company}</p>
+              </div>
             </div>
-            <p className="mt-4 text-sm text-white/70">
-              Plateforme RH intelligente pour hôtels, hôpitaux, cliniques, resorts, restaurants et entreprises.
-            </p>
+            <p className="mt-4 text-sm text-white/70">{t.footer.desc}</p>
           </div>
           <div>
-            <h4 className="text-sm font-bold uppercase tracking-widest text-accent">Entreprise</h4>
+            <h4 className="text-sm font-bold uppercase tracking-widest text-accent">
+              {t.footer.company}
+            </h4>
             <ul className="mt-4 space-y-2 text-sm text-white/80">
-              <li><a href="#" className="hover:text-accent">À propos</a></li>
-              <li><a href="#" className="hover:text-accent">Carrières</a></li>
-              <li><a href="#blog" className="hover:text-accent">Blog</a></li>
-              <li><a href="#contact" className="hover:text-accent">Contact</a></li>
+              <li>
+                <a href="#" className="hover:text-accent">
+                  {t.footer.about}
+                </a>
+              </li>
+              <li>
+                <a href="#" className="hover:text-accent">
+                  {t.footer.careers}
+                </a>
+              </li>
+              <li>
+                <a href="#contact" className="hover:text-accent">
+                  {t.nav.contact}
+                </a>
+              </li>
             </ul>
           </div>
           <div>
-            <h4 className="text-sm font-bold uppercase tracking-widest text-accent">Produit</h4>
+            <h4 className="text-sm font-bold uppercase tracking-widest text-accent">
+              {t.footer.product}
+            </h4>
             <ul className="mt-4 space-y-2 text-sm text-white/80">
-              <li><a href="#features" className="hover:text-accent">Fonctionnalités</a></li>
-              <li><a href="#tarifs" className="hover:text-accent">Tarifs</a></li>
-              <li><a href="#secteurs" className="hover:text-accent">Secteurs</a></li>
-              <li><a href="#contact" className="hover:text-accent">Démo</a></li>
+              <li>
+                <a href="#features" className="hover:text-accent">
+                  {t.nav.features}
+                </a>
+              </li>
+              <li>
+                <a href="#tarifs" className="hover:text-accent">
+                  {t.nav.pricing}
+                </a>
+              </li>
+              <li>
+                <a href="#secteurs" className="hover:text-accent">
+                  {t.nav.industries}
+                </a>
+              </li>
+              <li>
+                <a href="#contact" className="hover:text-accent">
+                  {t.footer.demo}
+                </a>
+              </li>
             </ul>
           </div>
           <div>
-            <h4 className="text-sm font-bold uppercase tracking-widest text-accent">Restons en contact</h4>
+            <h4 className="text-sm font-bold uppercase tracking-widest text-accent">
+              {t.footer.stayInTouch}
+            </h4>
             <div className="mt-4 flex gap-3">
               {[Linkedin, Facebook, Instagram].map((I, i) => (
                 <a
@@ -897,15 +1082,17 @@ function Footer() {
             <form className="mt-5 flex gap-2" onSubmit={(e) => e.preventDefault()}>
               <Input
                 type="email"
-                placeholder="Votre email"
+                placeholder={t.footer.emailPlaceholder}
                 className="h-11 rounded-xl border-white/20 bg-white/10 text-white placeholder:text-white/60"
               />
-              <Button type="submit" variant="cta" className="h-11 shrink-0">OK</Button>
+              <Button type="submit" variant="cta" className="h-11 shrink-0">
+                OK
+              </Button>
             </form>
           </div>
         </div>
         <div className="mt-12 border-t border-white/10 pt-6 text-center text-sm text-white/60">
-          © 2026 DotNet Solutions. Tous droits réservés.
+          {t.footer.rights}
         </div>
       </div>
     </footer>
@@ -915,8 +1102,9 @@ function Footer() {
 /* ---------------------------------- Index ---------------------------------- */
 function Index() {
   useReveal();
+  const { dir } = useI18n();
   return (
-    <div id="top" className="min-h-screen bg-background">
+    <div id="top" className="min-h-screen bg-background" dir={dir}>
       <Nav />
       <Hero />
       <Trust />
@@ -927,10 +1115,17 @@ function Index() {
       <HowItWorks />
       <Testimonials />
       <Pricing />
-      <Blog />
       <FinalCTA />
       <Contact />
       <Footer />
     </div>
+  );
+}
+
+function IndexPage() {
+  return (
+    <I18nProvider>
+      <Index />
+    </I18nProvider>
   );
 }

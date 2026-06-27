@@ -77,10 +77,10 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "DotNet Solutions — Gestion RH & Automatisation pour l'Hôtellerie et la Santé" },
+      { title: "Retex Solution — Gestion RH & Automatisation | DotNet" },
       { name: "description", content: "Plateforme SaaS de gestion RH : présences, plannings, paie automatisée et rapports pour hôtels, hôpitaux, cliniques, resorts et entreprises." },
-      { name: "author", content: "DotNet Solutions" },
-      { property: "og:title", content: "DotNet Solutions — Gestion RH intelligente" },
+      { name: "author", content: "DotNet" },
+      { property: "og:title", content: "Retex Solution — Gestion RH intelligente" },
       { property: "og:description", content: "Automatisez la paie, les présences et les plannings de vos équipes depuis une seule plateforme." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
