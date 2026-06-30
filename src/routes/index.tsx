@@ -45,9 +45,6 @@ import { I18nProvider, useI18n, type Lang } from "@/lib/i18n";
 import heroHotel from "@/assets/hero-hotel.jpg";
 import heroHospital from "@/assets/hero-hospital.jpg";
 import heroOffice from "@/assets/hero-office.jpg";
-import salarycalculation from "@/assets/salarycalculation.png";
-import presence from "@/assets/presence.png";
-import congé from "@/assets/congé.png";
 
 export const Route = createFileRoute("/")({
   head: () => ({
