@@ -45,9 +45,6 @@ import { I18nProvider, useI18n, type Lang } from "@/lib/i18n";
 import heroHotel from "@/assets/hero-hotel.jpg";
 import heroHospital from "@/assets/hero-hospital.jpg";
 import heroOffice from "@/assets/hero-office.jpg";
-import salarycalculation from "@/assets/salarycalculation.png";
-import presence from "@/assets/presence.png";
-import congé from "@/assets/congé.png";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -406,8 +403,8 @@ function Trust() {
 /* ------------------------------- Clarity blocks ---------------------------- */
 function Clarity() {
   const { t } = useI18n();
-  const blockImages = [salarycalculation, presence, congé];
-  const blocks = t.clarity.blocks.map((b, i) => ({ ...b, img: blockImages[i] }));
+  const icons = [BarChart3, Wallet, ShieldCheck, LineChart, Users];
+  const blocks = t.clarity.blocks.map((b, i) => ({ ...b, Icon: icons[i] ?? Sparkles }));
   return (
     <section className="relative overflow-hidden bg-mesh py-24 sm:py-32">
       <div className="mx-auto max-w-7xl px-6 lg:px-12">
@@ -427,44 +424,41 @@ function Clarity() {
           </p>
         </div>
 
-        <div className="mt-20 space-y-24">
-          {blocks.map((b, i) => (
-            <div
-              key={i}
-              data-reveal
-              className={`grid items-center gap-10 lg:grid-cols-2 lg:gap-16 ${
-                i % 2 === 1 ? "lg:[&>*:first-child]:order-2" : ""
-              }`}
-            >
-              <div>
-                <Badge className="bg-primary-soft text-primary-deep hover:bg-primary-soft">
-                  {b.tag}
-                </Badge>
-                <h3 className="mt-4 text-balance text-3xl font-bold tracking-tight sm:text-4xl">
-                  {b.title}
-                </h3>
-                <p className="mt-5 text-lg leading-relaxed text-muted-foreground">{b.text}</p>
-                <div className="mt-7 flex flex-wrap gap-3">
-                  <Button variant="cta" size="lg">
-                    {t.clarity.learnMore} <ArrowRight className="size-4" />
-                  </Button>
+        <div className="mt-16 grid gap-6 md:grid-cols-2">
+          {blocks.map((b, i) => {
+            const Icon = b.Icon;
+            const isLast = i === blocks.length - 1;
+            return (
+              <Card
+                key={i}
+                data-reveal
+                className={`group relative overflow-hidden rounded-3xl border-border/60 bg-card p-8 shadow-[var(--shadow-card)] transition-all duration-300 hover:-translate-y-1 hover:shadow-[var(--shadow-soft)] ${
+                  isLast ? "md:col-span-2" : ""
+                }`}
+              >
+                <div className="absolute -right-12 -top-12 size-44 rounded-full bg-gradient-to-br from-primary/15 to-accent/15 blur-2xl transition-opacity group-hover:opacity-80" />
+                <div className="relative flex flex-col gap-5">
+                  <div className="flex items-center gap-3">
+                    <div className="grid size-12 place-items-center rounded-2xl bg-gradient-to-br from-primary to-primary-deep text-white shadow-[var(--shadow-soft)]">
+                      <Icon className="size-6" />
+                    </div>
+                    <Badge className="bg-primary-soft text-primary-deep hover:bg-primary-soft">
+                      {b.tag}
+                    </Badge>
+                  </div>
+                  <h3 className="text-balance text-2xl font-bold tracking-tight sm:text-3xl">
+                    {b.title}
+                  </h3>
+                  <p className="text-base leading-relaxed text-muted-foreground">{b.text}</p>
+                  <div className="pt-1">
+                    <Button variant="cta" size="lg">
+                      {t.clarity.learnMore} <ArrowRight className="size-4" />
+                    </Button>
+                  </div>
                 </div>
-              </div>
-              <div className="relative">
-                <div className="absolute -inset-6 rounded-[2rem] bg-gradient-to-br from-primary/30 to-accent/20 blur-2xl" />
-                <div className="relative overflow-hidden rounded-3xl border border-border bg-card shadow-[var(--shadow-soft)]">
-                  <img
-                    src={b.img}
-                    alt={b.title}
-                    loading="lazy"
-                    width={1400}
-                    height={1000}
-                    className="block w-full"
-                  />
-                </div>
-              </div>
-            </div>
-          ))}
+              </Card>
+            );
+          })}
         </div>
 
         {/* Avant / Après */}
@@ -476,7 +470,7 @@ function Clarity() {
             <ul className="mt-6 space-y-4">
               {t.clarity.beforeItems.map((i) => (
                 <li key={i} className="flex items-center gap-3 text-base text-foreground/80">
-                  <span className="grid size-8 place-items-center rounded-full bg-destructive/15 text-destructive">
+                  <span className="grid size-8 shrink-0 place-items-center rounded-full bg-destructive/15 text-destructive">
                     <X className="size-4" />
                   </span>
                   {i}
@@ -494,7 +488,7 @@ function Clarity() {
                   key={i}
                   className="flex items-center gap-3 text-base font-medium text-primary-deep"
                 >
-                  <span className="grid size-8 place-items-center rounded-full bg-accent text-accent-foreground">
+                  <span className="grid size-8 shrink-0 place-items-center rounded-full bg-accent text-accent-foreground">
                     <Check className="size-4" />
                   </span>
                   {i}
@@ -507,6 +501,7 @@ function Clarity() {
     </section>
   );
 }
+
 
 /* -------------------------------- Features --------------------------------- */
 const featureIcons = [
@@ -1105,7 +1100,10 @@ function Index() {
   const { dir } = useI18n();
   return (
     <div id="top" className="min-h-screen bg-background" dir={dir}>
-      <Nav />
+      <div className="fixed top-4 right-4 z-50">
+        <LanguageSwitcher scrolled={true} />
+      </div>
+
       <Hero />
       <Trust />
       <Clarity />
