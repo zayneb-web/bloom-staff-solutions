@@ -1100,7 +1100,10 @@ function Index() {
   const { dir } = useI18n();
   return (
     <div id="top" className="min-h-screen bg-background" dir={dir}>
-      <Nav />
+      <div className="fixed top-4 right-4 z-50">
+        <LanguageSwitcher scrolled={true} />
+      </div>
+
       <Hero />
       <Trust />
       <Clarity />
