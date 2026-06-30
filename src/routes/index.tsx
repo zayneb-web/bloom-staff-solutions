@@ -33,6 +33,8 @@ import {
   Instagram,
   ArrowRight,
   Play,
+  Menu,
+  X as XIcon,
 } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
@@ -239,6 +241,7 @@ function Hero() {
 function Nav() {
   const { t } = useI18n();
   const [scrolled, setScrolled] = useState(false);
+  const [open, setOpen] = useState(false);
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 30);
     window.addEventListener("scroll", onScroll);
@@ -255,19 +258,21 @@ function Nav() {
     [t.nav.contact, "#contact"],
   ] as const;
 
+  const solid = scrolled || open;
+
   return (
     <header
       className={`fixed inset-x-0 top-0 z-50 transition-all duration-300 ${
-        scrolled ? "glass shadow-[var(--shadow-card)]" : "bg-transparent"
+        solid ? "glass shadow-[var(--shadow-card)]" : "bg-transparent"
       }`}
     >
-      <div className="mx-auto flex h-18 max-w-7xl items-center justify-between gap-4 px-6 py-4 lg:px-12">
-        <a href="#top" className="flex items-center gap-2.5">
+      <div className="mx-auto flex h-18 max-w-7xl items-center justify-between gap-4 px-4 py-3 sm:px-6 lg:px-12 lg:py-4">
+        <a href="#top" onClick={() => setOpen(false)} className="flex items-center gap-2.5">
           <div className="grid size-10 place-items-center rounded-xl bg-gradient-to-br from-primary to-primary-deep text-white shadow-[var(--shadow-soft)]">
             <span className="text-lg font-extrabold">R</span>
           </div>
           <span
-            className={`text-lg font-extrabold tracking-tight ${scrolled ? "text-foreground" : "text-white"}`}
+            className={`text-base font-extrabold tracking-tight sm:text-lg ${solid ? "text-foreground" : "text-white"}`}
           >
             Retex <span className="text-accent">Solution</span>
           </span>
@@ -279,7 +284,7 @@ function Nav() {
               key={l}
               href={h}
               className={`rounded-lg px-3 py-2 text-sm font-medium transition-colors ${
-                scrolled
+                solid
                   ? "text-foreground/80 hover:bg-primary-soft hover:text-primary-deep"
                   : "text-white/90 hover:bg-white/15 hover:text-white"
               }`}
@@ -289,13 +294,45 @@ function Nav() {
           ))}
         </nav>
 
-        <div className="flex items-center gap-3">
-          <LanguageSwitcher scrolled={scrolled} />
-          <Button variant="cta" asChild>
+        <div className="flex items-center gap-2 sm:gap-3">
+          <LanguageSwitcher scrolled={solid} />
+          <Button variant="cta" asChild className="hidden sm:inline-flex">
             <a href="#contact">{t.nav.demo}</a>
           </Button>
+          <button
+            type="button"
+            aria-label="Menu"
+            onClick={() => setOpen((v) => !v)}
+            className={`grid size-10 place-items-center rounded-lg lg:hidden ${
+              solid ? "text-foreground hover:bg-primary-soft" : "text-white hover:bg-white/15"
+            }`}
+          >
+            {open ? <XIcon className="size-5" /> : <Menu className="size-5" />}
+          </button>
         </div>
       </div>
+
+      {open && (
+        <div className="border-t border-border/40 bg-background/95 backdrop-blur lg:hidden">
+          <nav className="mx-auto flex max-w-7xl flex-col gap-1 px-4 py-4 sm:px-6">
+            {links.map(([l, h]) => (
+              <a
+                key={l}
+                href={h}
+                onClick={() => setOpen(false)}
+                className="rounded-lg px-3 py-2.5 text-sm font-medium text-foreground/80 hover:bg-primary-soft hover:text-primary-deep"
+              >
+                {l}
+              </a>
+            ))}
+            <Button variant="cta" asChild className="mt-2">
+              <a href="#contact" onClick={() => setOpen(false)}>
+                {t.nav.demo}
+              </a>
+            </Button>
+          </nav>
+        </div>
+      )}
     </header>
   );
 }
@@ -1100,10 +1137,7 @@ function Index() {
   const { dir } = useI18n();
   return (
     <div id="top" className="min-h-screen bg-background" dir={dir}>
-      <div className="fixed top-4 right-4 z-50">
-        <LanguageSwitcher scrolled={true} />
-      </div>
-
+      <Nav />
       <Hero />
       <Trust />
       <Clarity />
