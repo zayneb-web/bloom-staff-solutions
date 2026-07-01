@@ -384,14 +384,14 @@ function Counter({
 function Trust() {
   const { t } = useI18n();
   const logos = [
-    "Marriott",
-    "Hilton",
-    "Mayo Clinic",
-    "Accor",
-    "Sofitel",
-    "Cleveland",
-    "Four Seasons",
-    "Hyatt",
+    "Reemaj Hotel — Arabie Saoudite",
+    "Société Radi Trans",
+    "Ministère de l'Intérieur",
+    "Alex Market",
+    "Grand Mall",
+    "Qasr Al-Salam",
+    "Coopératives de Consommation",
+    "Investissement Immobilier",
   ];
   return (
     <section className="relative border-y border-border bg-secondary/40 py-16">
