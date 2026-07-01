@@ -861,12 +861,12 @@ function Testimonials() {
           </div>
           <div className="overflow-hidden" ref={emblaRef} dir="ltr">
             <div className="flex gap-6">
-              {testimonialVideos.map((t) => (
+              {testimonialVideos.map((tv) => (
                 <div
-                  key={t.src}
+                  key={tv.name}
                   className="min-w-0 flex-[0_0_88%] sm:flex-[0_0_48%] lg:flex-[0_0_32%]"
                 >
-                  <TestimonialVideoCard name={t.name} role={t.role} src={t.src} />
+                  <TestimonialVideoCard name={tv.name} role={tv.role} src={tv.src} image={tv.image} />
                 </div>
               ))}
             </div>
