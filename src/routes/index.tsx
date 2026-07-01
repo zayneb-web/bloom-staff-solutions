@@ -258,9 +258,7 @@ function Nav() {
   const links = [
     [t.nav.home, "#top"],
     [t.nav.features, "#features"],
-    [t.nav.industries, "#secteurs"],
     [t.nav.benefits, "#avantages"],
-    [t.nav.pricing, "#tarifs"],
     [t.nav.contact, "#contact"],
   ] as const;
 
