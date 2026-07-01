@@ -721,14 +721,25 @@ const testimonialNames = [
   "Mohamed Sedky",
   "Sameh Fahmy",
   "Qasr Al-Salam",
+  "Reemaj Hotel",
 ] as const;
 
-const testimonialSources = [
+const testimonialSources: readonly (string | null)[] = [
   "/videos/temoignages/tem1.mp4",
   "/videos/temoignages/tem2.mp4",
   "/videos/temoignages/tem3.mp4",
   "/videos/temoignages/tem4.mp4",
   "/videos/temoignages/tem5.mp4",
+  null,
+] as const;
+
+const testimonialImages: readonly (string | null)[] = [
+  null,
+  null,
+  null,
+  null,
+  null,
+  reemajHotelAsset.url,
 ] as const;
 
 function TestimonialVideoCard({
