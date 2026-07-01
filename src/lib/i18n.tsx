@@ -732,11 +732,15 @@ const I18nContext = createContext<I18nContextValue | null>(null);
 const STORAGE_KEY = "dotnet-lang";
 
 export function I18nProvider({ children }: { children: ReactNode }) {
-  const [lang, setLangState] = useState<Lang>(() => {
-    if (typeof window === "undefined") return "fr";
+  const [lang, setLangState] = useState<Lang>("fr");
+
+  useEffect(() => {
     const stored = localStorage.getItem(STORAGE_KEY) as Lang | null;
-    return stored && stored in translations ? stored : "fr";
-  });
+    if (stored && stored in translations && stored !== lang) {
+      setLangState(stored);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const setLang = (next: Lang) => {
     setLangState(next);
