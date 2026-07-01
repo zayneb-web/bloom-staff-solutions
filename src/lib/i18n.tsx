@@ -19,14 +19,14 @@ export const translations = {
     },
     hero: {
       subtitle:
-        "Automatisez la gestion des présences, plannings, paie, congés, évaluations et rapports RH depuis une seule plateforme intelligente.",
+        "Pilotez stocks, comptabilité, ventes, finance et ressources humaines depuis une seule plateforme intelligente.",
       presentation: "Voir la Présentation",
-      trustCount: "+500 entreprises",
+      trustCount: "+50 entreprises",
       trustLabel: "nous font confiance",
       slides: [
-        { title: "Gérez Votre Personnel Comme un Pro", eyebrow: "Hôtellerie & Resorts" },
-        { title: "L'Automatisation RH pour l'Hôtellerie & la Santé", eyebrow: "Hôpitaux & Cliniques" },
-        { title: "Paie, Présence et Plannings en Un Seul Clic", eyebrow: "Entreprises & Restaurants" },
+        { title: "Maîtrisez Vos Ventes et Vos Profits", eyebrow: "Ventes & POS" },
+        { title: "Stocks, Achats et Comptabilité Sous Contrôle", eyebrow: "Stocks & Finance" },
+        { title: "Gérez Vos Ressources Humaines Comme un Pro", eyebrow: "RH & Paie" },
       ],
     },
     trust: {
