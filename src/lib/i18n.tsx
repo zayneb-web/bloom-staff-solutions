@@ -396,6 +396,7 @@ export const translations = {
         "President of consumer cooperatives (Alex Market)",
         "Financial Director, Grand Mall",
         "Real estate and commercial investment",
+        "General Management, Reemaj Hotel — Saudi Arabia",
       ],
     },
     pricing: {
