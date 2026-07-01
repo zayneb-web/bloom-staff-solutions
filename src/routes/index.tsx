@@ -571,6 +571,7 @@ function Clarity() {
               ))}
             </ul>
           </Card>
+          </div>
         </div>
       </div>
     </section>
