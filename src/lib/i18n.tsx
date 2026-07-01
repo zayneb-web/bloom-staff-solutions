@@ -31,6 +31,16 @@ export const translations = {
     },
     trust: {
       title: "Approuvé par des Organisations en Pleine Croissance",
+      logos: [
+        "Reemaj Hotel — Arabie Saoudite",
+        "Société Radi Trans",
+        "Ministère de l'Intérieur",
+        "Alex Market",
+        "Grand Mall",
+        "Qasr Al-Salam",
+        "Coopératives de Consommation",
+        "Investissement Immobilier",
+      ],
       stats: [
         { l: "Entreprises" },
         { l: "Précision Paie" },
@@ -269,6 +279,16 @@ export const translations = {
     },
     trust: {
       title: "Trusted by Growing Organizations",
+      logos: [
+        "Reemaj Hotel — Saudi Arabia",
+        "Radi Trans Company",
+        "Ministry of Interior",
+        "Alex Market",
+        "Grand Mall",
+        "Qasr Al-Salam",
+        "Consumer Cooperatives",
+        "Real Estate Investment",
+      ],
       stats: [
         { l: "Companies" },
         { l: "Payroll Accuracy" },
@@ -507,6 +527,16 @@ export const translations = {
     },
     trust: {
       title: "موثوق به من قبل مؤسسات في نمو مستمر",
+      logos: [
+        "فندق ريماج — السعودية",
+        "شركة رادي ترانس",
+        "وزارة الداخلية",
+        "أليكس ماركت",
+        "جراند مول",
+        "قصر السلام",
+        "تعاونيات الاستهلاك",
+        "الاستثمار العقاري",
+      ],
       stats: [
         { l: "شركات" },
         { l: "دقة الرواتب" },

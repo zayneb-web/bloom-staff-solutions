@@ -387,16 +387,7 @@ function Counter({
 /* ----------------------------------- Trust --------------------------------- */
 function Trust() {
   const { t } = useI18n();
-  const logos = [
-    "Reemaj Hotel — Arabie Saoudite",
-    "Société Radi Trans",
-    "Ministère de l'Intérieur",
-    "Alex Market",
-    "Grand Mall",
-    "Qasr Al-Salam",
-    "Coopératives de Consommation",
-    "Investissement Immobilier",
-  ];
+  const logos = t.trust.logos;
   return (
     <section className="relative border-y border-border bg-secondary/40 py-16">
       <div className="mx-auto max-w-7xl px-6 lg:px-12">
@@ -476,48 +467,55 @@ function Clarity() {
           </p>
         </div>
 
-        <div className="mt-16 grid gap-6 md:grid-cols-2">
+        <div className="mt-16 flex flex-col gap-20 sm:gap-24 lg:gap-28">
           {blocks.map((b, i) => {
             const Icon = b.Icon;
-            const isLast = i === blocks.length - 1;
+            const imageLeft = i % 2 === 0;
             return (
-              <Card
+              <div
                 key={i}
                 data-reveal
-                className={`group relative overflow-hidden rounded-3xl border-border/60 bg-card shadow-[var(--shadow-card)] transition-all duration-300 hover:-translate-y-1 hover:shadow-[var(--shadow-soft)] ${
-                  isLast ? "md:col-span-2" : ""
-                }`}
+                className="grid items-center gap-8 lg:grid-cols-2 lg:gap-16"
               >
-                <div className="relative aspect-[16/9] overflow-hidden bg-gradient-to-br from-primary-soft to-accent-soft">
-                  <img
-                    src={b.image}
-                    alt={b.title}
-                    loading="lazy"
-                    className="size-full object-cover transition-transform duration-500 group-hover:scale-105"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-background/60 via-background/0 to-background/0" />
-                  <Badge className="absolute left-4 top-4 bg-white/90 text-primary-deep shadow-sm hover:bg-white">
+                <div
+                  className={`relative overflow-hidden rounded-3xl border border-border/60 bg-card shadow-[var(--shadow-soft)] ${
+                    imageLeft ? "order-1" : "order-1 lg:order-2"
+                  }`}
+                >
+                  <div className="aspect-[4/3] overflow-hidden bg-gradient-to-br from-primary-soft to-accent-soft">
+                    <img
+                      src={b.image}
+                      alt={b.title}
+                      loading="lazy"
+                      className="size-full object-cover object-top"
+                    />
+                  </div>
+                </div>
+
+                <div
+                  className={`flex flex-col gap-5 ${
+                    imageLeft ? "order-2" : "order-2 lg:order-1"
+                  }`}
+                >
+                  <Badge className="w-fit bg-primary-soft text-primary-deep hover:bg-primary-soft">
                     {b.tag}
                   </Badge>
-                </div>
-                <div className="relative flex flex-col gap-5 p-8">
-                  <div className="absolute -right-12 -top-12 size-44 rounded-full bg-gradient-to-br from-primary/15 to-accent/15 blur-2xl transition-opacity group-hover:opacity-80" />
-                  <div className="relative flex items-center gap-3">
-                    <div className="grid size-12 place-items-center rounded-2xl bg-gradient-to-br from-primary to-primary-deep text-white shadow-[var(--shadow-soft)]">
+                  <div className="flex items-start gap-4">
+                    <div className="grid size-12 shrink-0 place-items-center rounded-2xl bg-gradient-to-br from-primary to-primary-deep text-white shadow-[var(--shadow-soft)]">
                       <Icon className="size-6" />
                     </div>
-                    <h3 className="text-balance text-2xl font-bold tracking-tight sm:text-3xl">
+                    <h3 className="text-balance text-3xl font-bold tracking-tight sm:text-4xl">
                       {b.title}
                     </h3>
                   </div>
-                  <p className="relative text-base leading-relaxed text-muted-foreground">{b.text}</p>
-                  <div className="relative pt-1">
+                  <p className="max-w-xl text-lg leading-relaxed text-muted-foreground">{b.text}</p>
+                  <div className="pt-2">
                     <Button variant="cta" size="lg">
                       {t.clarity.learnMore} <ArrowRight className="size-4" />
                     </Button>
                   </div>
                 </div>
-              </Card>
+              </div>
             );
           })}
         </div>
@@ -1132,16 +1130,6 @@ function Footer() {
               <li>
                 <a href="#features" className="hover:text-accent">
                   {t.nav.features}
-                </a>
-              </li>
-              <li>
-                <a href="#tarifs" className="hover:text-accent">
-                  {t.nav.pricing}
-                </a>
-              </li>
-              <li>
-                <a href="#secteurs" className="hover:text-accent">
-                  {t.nav.industries}
                 </a>
               </li>
               <li>
