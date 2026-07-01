@@ -797,6 +797,7 @@ function Testimonials() {
     name,
     role: t.testimonials.roles[i],
     src: testimonialSources[i],
+    image: testimonialImages[i],
   }));
   const [emblaRef, embla] = useEmblaCarousel({ loop: true, align: "start", direction: "ltr" });
 
