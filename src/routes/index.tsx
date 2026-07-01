@@ -526,7 +526,18 @@ function Clarity() {
 
 
         {/* Avant / Après */}
-        <div data-reveal className="mt-28 grid gap-6 lg:grid-cols-2">
+        <div id="avantages" className="mt-28 scroll-mt-24">
+          <div className="mx-auto max-w-3xl text-center">
+            <h3
+              data-reveal
+              className="text-balance text-3xl font-extrabold tracking-tight sm:text-4xl"
+            >
+              {t.benefits.title}{" "}
+              <span className="text-primary-deep">{t.benefits.titleHighlight}</span>
+              {t.benefits.titleSuffix}
+            </h3>
+          </div>
+          <div data-reveal className="mt-10 grid gap-6 lg:grid-cols-2">
           <Card className="rounded-3xl border-border/60 bg-muted/60 p-8">
             <h4 className="text-sm font-semibold uppercase tracking-widest text-muted-foreground">
               {t.clarity.before}
