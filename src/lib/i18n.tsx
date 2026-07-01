@@ -257,14 +257,14 @@ export const translations = {
     },
     hero: {
       subtitle:
-        "Automate attendance, scheduling, payroll, leave, performance reviews and HR reports from one intelligent platform.",
+        "Manage inventory, accounting, sales, finance and HR from a single intelligent platform.",
       presentation: "Watch Presentation",
-      trustCount: "+500 companies",
+      trustCount: "+50 companies",
       trustLabel: "trust us",
       slides: [
-        { title: "Manage Your Staff Like a Pro", eyebrow: "Hospitality & Resorts" },
-        { title: "HR Automation for Hospitality & Healthcare", eyebrow: "Hospitals & Clinics" },
-        { title: "Payroll, Attendance & Scheduling in One Click", eyebrow: "Businesses & Restaurants" },
+        { title: "Master Your Sales and Profits", eyebrow: "Sales & POS" },
+        { title: "Inventory, Purchases and Accounting Under Control", eyebrow: "Stocks & Finance" },
+        { title: "Run Your Human Resources Like a Pro", eyebrow: "HR & Payroll" },
       ],
     },
     trust: {
