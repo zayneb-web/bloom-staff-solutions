@@ -19,14 +19,14 @@ export const translations = {
     },
     hero: {
       subtitle:
-        "Automatisez la gestion des présences, plannings, paie, congés, évaluations et rapports RH depuis une seule plateforme intelligente.",
+        "Pilotez stocks, comptabilité, ventes, finance et ressources humaines depuis une seule plateforme intelligente.",
       presentation: "Voir la Présentation",
-      trustCount: "+500 entreprises",
+      trustCount: "+50 entreprises",
       trustLabel: "nous font confiance",
       slides: [
-        { title: "Gérez Votre Personnel Comme un Pro", eyebrow: "Hôtellerie & Resorts" },
-        { title: "L'Automatisation RH pour l'Hôtellerie & la Santé", eyebrow: "Hôpitaux & Cliniques" },
-        { title: "Paie, Présence et Plannings en Un Seul Clic", eyebrow: "Entreprises & Restaurants" },
+        { title: "Maîtrisez Vos Ventes et Vos Profits", eyebrow: "Ventes & POS" },
+        { title: "Stocks, Achats et Comptabilité Sous Contrôle", eyebrow: "Stocks & Finance" },
+        { title: "Gérez Vos Ressources Humaines Comme un Pro", eyebrow: "RH & Paie" },
       ],
     },
     trust: {
@@ -257,14 +257,14 @@ export const translations = {
     },
     hero: {
       subtitle:
-        "Automate attendance, scheduling, payroll, leave, performance reviews and HR reports from one intelligent platform.",
+        "Manage inventory, accounting, sales, finance and HR from a single intelligent platform.",
       presentation: "Watch Presentation",
-      trustCount: "+500 companies",
+      trustCount: "+50 companies",
       trustLabel: "trust us",
       slides: [
-        { title: "Manage Your Staff Like a Pro", eyebrow: "Hospitality & Resorts" },
-        { title: "HR Automation for Hospitality & Healthcare", eyebrow: "Hospitals & Clinics" },
-        { title: "Payroll, Attendance & Scheduling in One Click", eyebrow: "Businesses & Restaurants" },
+        { title: "Master Your Sales and Profits", eyebrow: "Sales & POS" },
+        { title: "Inventory, Purchases and Accounting Under Control", eyebrow: "Stocks & Finance" },
+        { title: "Run Your Human Resources Like a Pro", eyebrow: "HR & Payroll" },
       ],
     },
     trust: {
@@ -495,14 +495,14 @@ export const translations = {
     },
     hero: {
       subtitle:
-        "أتمتة إدارة الحضور والجداول والرواتب والإجازات والتقييمات وتقارير الموارد البشرية من منصة ذكية واحدة.",
+        "أدر المخازن والحسابات والمبيعات والمالية والموارد البشرية من منصة ذكية واحدة.",
       presentation: "مشاهدة العرض",
-      trustCount: "+500 شركة",
+      trustCount: "+50 شركة",
       trustLabel: "تثق بنا",
       slides: [
-        { title: "أدِر موظفيك كمحترف", eyebrow: "الفنادق والمنتجعات" },
-        { title: "أتمتة الموارد البشرية للفنادق والقطاع الصحي", eyebrow: "المستشفيات والعيادات" },
-        { title: "الرواتب والحضور والجداول بنقرة واحدة", eyebrow: "الشركات والمطاعم" },
+        { title: "تحكم في مبيعاتك وأرباحك", eyebrow: "المبيعات ونقاط البيع" },
+        { title: "المخازن والمشتريات والحسابات تحت السيطرة", eyebrow: "المخازن والمالية" },
+        { title: "أدر مواردك البشرية باحترافية", eyebrow: "الموارد البشرية والرواتب" },
       ],
     },
     trust: {
@@ -732,11 +732,15 @@ const I18nContext = createContext<I18nContextValue | null>(null);
 const STORAGE_KEY = "dotnet-lang";
 
 export function I18nProvider({ children }: { children: ReactNode }) {
-  const [lang, setLangState] = useState<Lang>(() => {
-    if (typeof window === "undefined") return "fr";
+  const [lang, setLangState] = useState<Lang>("fr");
+
+  useEffect(() => {
     const stored = localStorage.getItem(STORAGE_KEY) as Lang | null;
-    return stored && stored in translations ? stored : "fr";
-  });
+    if (stored && stored in translations && stored !== lang) {
+      setLangState(stored);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const setLang = (next: Lang) => {
     setLangState(next);

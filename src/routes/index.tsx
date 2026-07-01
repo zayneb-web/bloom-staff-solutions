@@ -258,9 +258,7 @@ function Nav() {
   const links = [
     [t.nav.home, "#top"],
     [t.nav.features, "#features"],
-    [t.nav.industries, "#secteurs"],
     [t.nav.benefits, "#avantages"],
-    [t.nav.pricing, "#tarifs"],
     [t.nav.contact, "#contact"],
   ] as const;
 
@@ -421,7 +419,7 @@ function Trust() {
 
         <div className="mt-14 grid grid-cols-2 gap-4 sm:grid-cols-4 sm:gap-6">
           {[
-            { v: 500, suffix: "+", l: t.trust.stats[0].l },
+            { v: 50, suffix: "+", l: t.trust.stats[0].l },
             { v: 98, suffix: "%", l: t.trust.stats[1].l },
             { v: 70, prefix: "-", suffix: "%", l: t.trust.stats[2].l },
             { v: 24, suffix: "/7", l: t.trust.stats[3].l },
@@ -526,7 +524,18 @@ function Clarity() {
 
 
         {/* Avant / Après */}
-        <div data-reveal className="mt-28 grid gap-6 lg:grid-cols-2">
+        <div id="avantages" className="mt-28 scroll-mt-24">
+          <div className="mx-auto max-w-3xl text-center">
+            <h3
+              data-reveal
+              className="text-balance text-3xl font-extrabold tracking-tight sm:text-4xl"
+            >
+              {t.benefits.title}{" "}
+              <span className="text-primary-deep">{t.benefits.titleHighlight}</span>
+              {t.benefits.titleSuffix}
+            </h3>
+          </div>
+          <div data-reveal className="mt-10 grid gap-6 lg:grid-cols-2">
           <Card className="rounded-3xl border-border/60 bg-muted/60 p-8">
             <h4 className="text-sm font-semibold uppercase tracking-widest text-muted-foreground">
               {t.clarity.before}
@@ -560,6 +569,7 @@ function Clarity() {
               ))}
             </ul>
           </Card>
+          </div>
         </div>
       </div>
     </section>
@@ -1187,11 +1197,8 @@ function Index() {
       <Trust />
       <Clarity />
       <Features />
-      <Benefits />
-      <Industries />
-      <HowItWorks />
+      {/* Hidden per request: <Benefits />, <Industries />, <HowItWorks />, <Pricing /> */}
       <Testimonials />
-      <Pricing />
       <FinalCTA />
       <Contact />
       <Footer />
