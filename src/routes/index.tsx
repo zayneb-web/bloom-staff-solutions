@@ -747,25 +747,31 @@ function TestimonialVideoCard({
   name,
   role,
   src,
+  image,
   featured = false,
 }: {
   name: string;
   role: string;
-  src: string;
+  src?: string | null;
+  image?: string | null;
   featured?: boolean;
 }) {
   return (
     <Card className="overflow-hidden rounded-3xl border-border/60 bg-card p-0 shadow-[var(--shadow-card)]">
       <div className="relative aspect-video w-full bg-primary-deep/10">
-        <video
-          className="h-full w-full object-cover"
-          controls
-          preload="metadata"
-          playsInline
-          aria-label={`Témoignage vidéo de ${name}`}
-        >
-          <source src={src} type="video/mp4" />
-        </video>
+        {src ? (
+          <video
+            className="h-full w-full object-cover"
+            controls
+            preload="metadata"
+            playsInline
+            aria-label={`Témoignage vidéo de ${name}`}
+          >
+            <source src={src} type="video/mp4" />
+          </video>
+        ) : image ? (
+          <img src={image} alt={name} className="h-full w-full object-cover" loading="lazy" />
+        ) : null}
       </div>
       <div className={`flex items-center gap-3 ${featured ? "p-6 sm:p-8" : "p-5"}`}>
         <div className="grid size-12 shrink-0 place-items-center rounded-full bg-primary-soft text-primary-deep font-bold">
