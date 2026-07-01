@@ -47,6 +47,7 @@ import { I18nProvider, useI18n, type Lang } from "@/lib/i18n";
 import heroHotel from "@/assets/hero-hotel.jpg";
 import heroHospital from "@/assets/hero-hospital.jpg";
 import heroOffice from "@/assets/hero-office.jpg";
+import reemajHotelAsset from "@/assets/reemaj-hotel.jpeg.asset.json";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -384,14 +385,14 @@ function Counter({
 function Trust() {
   const { t } = useI18n();
   const logos = [
-    "Marriott",
-    "Hilton",
-    "Mayo Clinic",
-    "Accor",
-    "Sofitel",
-    "Cleveland",
-    "Four Seasons",
-    "Hyatt",
+    "Reemaj Hotel — Arabie Saoudite",
+    "Société Radi Trans",
+    "Ministère de l'Intérieur",
+    "Alex Market",
+    "Grand Mall",
+    "Qasr Al-Salam",
+    "Coopératives de Consommation",
+    "Investissement Immobilier",
   ];
   return (
     <section className="relative border-y border-border bg-secondary/40 py-16">
@@ -721,39 +722,56 @@ const testimonialNames = [
   "Mohamed Sedky",
   "Sameh Fahmy",
   "Qasr Al-Salam",
+  "Reemaj Hotel",
 ] as const;
 
-const testimonialSources = [
+const testimonialSources: readonly (string | null)[] = [
   "/videos/temoignages/tem1.mp4",
   "/videos/temoignages/tem2.mp4",
   "/videos/temoignages/tem3.mp4",
   "/videos/temoignages/tem4.mp4",
   "/videos/temoignages/tem5.mp4",
+  null,
+] as const;
+
+const testimonialImages: readonly (string | null)[] = [
+  null,
+  null,
+  null,
+  null,
+  null,
+  reemajHotelAsset.url,
 ] as const;
 
 function TestimonialVideoCard({
   name,
   role,
   src,
+  image,
   featured = false,
 }: {
   name: string;
   role: string;
-  src: string;
+  src?: string | null;
+  image?: string | null;
   featured?: boolean;
 }) {
   return (
     <Card className="overflow-hidden rounded-3xl border-border/60 bg-card p-0 shadow-[var(--shadow-card)]">
       <div className="relative aspect-video w-full bg-primary-deep/10">
-        <video
-          className="h-full w-full object-cover"
-          controls
-          preload="metadata"
-          playsInline
-          aria-label={`Témoignage vidéo de ${name}`}
-        >
-          <source src={src} type="video/mp4" />
-        </video>
+        {src ? (
+          <video
+            className="h-full w-full object-cover"
+            controls
+            preload="metadata"
+            playsInline
+            aria-label={`Témoignage vidéo de ${name}`}
+          >
+            <source src={src} type="video/mp4" />
+          </video>
+        ) : image ? (
+          <img src={image} alt={name} className="h-full w-full object-cover" loading="lazy" />
+        ) : null}
       </div>
       <div className={`flex items-center gap-3 ${featured ? "p-6 sm:p-8" : "p-5"}`}>
         <div className="grid size-12 shrink-0 place-items-center rounded-full bg-primary-soft text-primary-deep font-bold">
@@ -779,6 +797,7 @@ function Testimonials() {
     name,
     role: t.testimonials.roles[i],
     src: testimonialSources[i],
+    image: testimonialImages[i],
   }));
   const [emblaRef, embla] = useEmblaCarousel({ loop: true, align: "start", direction: "ltr" });
 
@@ -842,12 +861,12 @@ function Testimonials() {
           </div>
           <div className="overflow-hidden" ref={emblaRef} dir="ltr">
             <div className="flex gap-6">
-              {testimonialVideos.map((t) => (
+              {testimonialVideos.map((tv) => (
                 <div
-                  key={t.src}
+                  key={tv.name}
                   className="min-w-0 flex-[0_0_88%] sm:flex-[0_0_48%] lg:flex-[0_0_32%]"
                 >
-                  <TestimonialVideoCard name={t.name} role={t.role} src={t.src} />
+                  <TestimonialVideoCard name={tv.name} role={tv.role} src={tv.src} image={tv.image} />
                 </div>
               ))}
             </div>

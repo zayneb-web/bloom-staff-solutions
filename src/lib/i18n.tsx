@@ -158,6 +158,7 @@ export const translations = {
         "Président des coopératives de consommation (Alex Market)",
         "Directeur financier, Grand Mall",
         "Investissement immobilier et commercial",
+        "Direction générale, Reemaj Hotel — Arabie Saoudite",
       ],
     },
     pricing: {
@@ -395,6 +396,7 @@ export const translations = {
         "President of consumer cooperatives (Alex Market)",
         "Financial Director, Grand Mall",
         "Real estate and commercial investment",
+        "General Management, Reemaj Hotel — Saudi Arabia",
       ],
     },
     pricing: {
@@ -632,6 +634,7 @@ export const translations = {
         "رئيس التعاونيات الاستهلاكية (أليكس ماركت)",
         "المدير المالي، جراند مول",
         "الاستثمار العقاري والتجاري",
+        "الإدارة العامة، فندق ريماج — المملكة العربية السعودية",
       ],
     },
     pricing: {
