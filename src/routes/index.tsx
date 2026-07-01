@@ -421,7 +421,7 @@ function Trust() {
 
         <div className="mt-14 grid grid-cols-2 gap-4 sm:grid-cols-4 sm:gap-6">
           {[
-            { v: 500, suffix: "+", l: t.trust.stats[0].l },
+            { v: 50, suffix: "+", l: t.trust.stats[0].l },
             { v: 98, suffix: "%", l: t.trust.stats[1].l },
             { v: 70, prefix: "-", suffix: "%", l: t.trust.stats[2].l },
             { v: 24, suffix: "/7", l: t.trust.stats[3].l },
