@@ -447,7 +447,18 @@ function Trust() {
 function Clarity() {
   const { t } = useI18n();
   const icons = [BarChart3, Wallet, ShieldCheck, LineChart, Users];
-  const blocks = t.clarity.blocks.map((b, i) => ({ ...b, Icon: icons[i] ?? Sparkles }));
+  const images = [
+    moduleStocksAsset.url,
+    moduleAccountsAsset.url,
+    modulePosAsset.url,
+    moduleFinanceAsset.url,
+    moduleHrAsset.url,
+  ];
+  const blocks = t.clarity.blocks.map((b, i) => ({
+    ...b,
+    Icon: icons[i] ?? Sparkles,
+    image: images[i],
+  }));
   return (
     <section className="relative overflow-hidden bg-mesh py-24 sm:py-32">
       <div className="mx-auto max-w-7xl px-6 lg:px-12">
@@ -475,25 +486,34 @@ function Clarity() {
               <Card
                 key={i}
                 data-reveal
-                className={`group relative overflow-hidden rounded-3xl border-border/60 bg-card p-8 shadow-[var(--shadow-card)] transition-all duration-300 hover:-translate-y-1 hover:shadow-[var(--shadow-soft)] ${
+                className={`group relative overflow-hidden rounded-3xl border-border/60 bg-card shadow-[var(--shadow-card)] transition-all duration-300 hover:-translate-y-1 hover:shadow-[var(--shadow-soft)] ${
                   isLast ? "md:col-span-2" : ""
                 }`}
               >
-                <div className="absolute -right-12 -top-12 size-44 rounded-full bg-gradient-to-br from-primary/15 to-accent/15 blur-2xl transition-opacity group-hover:opacity-80" />
-                <div className="relative flex flex-col gap-5">
-                  <div className="flex items-center gap-3">
+                <div className="relative aspect-[16/9] overflow-hidden bg-gradient-to-br from-primary-soft to-accent-soft">
+                  <img
+                    src={b.image}
+                    alt={b.title}
+                    loading="lazy"
+                    className="size-full object-cover transition-transform duration-500 group-hover:scale-105"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-background/60 via-background/0 to-background/0" />
+                  <Badge className="absolute left-4 top-4 bg-white/90 text-primary-deep shadow-sm hover:bg-white">
+                    {b.tag}
+                  </Badge>
+                </div>
+                <div className="relative flex flex-col gap-5 p-8">
+                  <div className="absolute -right-12 -top-12 size-44 rounded-full bg-gradient-to-br from-primary/15 to-accent/15 blur-2xl transition-opacity group-hover:opacity-80" />
+                  <div className="relative flex items-center gap-3">
                     <div className="grid size-12 place-items-center rounded-2xl bg-gradient-to-br from-primary to-primary-deep text-white shadow-[var(--shadow-soft)]">
                       <Icon className="size-6" />
                     </div>
-                    <Badge className="bg-primary-soft text-primary-deep hover:bg-primary-soft">
-                      {b.tag}
-                    </Badge>
+                    <h3 className="text-balance text-2xl font-bold tracking-tight sm:text-3xl">
+                      {b.title}
+                    </h3>
                   </div>
-                  <h3 className="text-balance text-2xl font-bold tracking-tight sm:text-3xl">
-                    {b.title}
-                  </h3>
-                  <p className="text-base leading-relaxed text-muted-foreground">{b.text}</p>
-                  <div className="pt-1">
+                  <p className="relative text-base leading-relaxed text-muted-foreground">{b.text}</p>
+                  <div className="relative pt-1">
                     <Button variant="cta" size="lg">
                       {t.clarity.learnMore} <ArrowRight className="size-4" />
                     </Button>
@@ -503,6 +523,7 @@ function Clarity() {
             );
           })}
         </div>
+
 
         {/* Avant / Après */}
         <div data-reveal className="mt-28 grid gap-6 lg:grid-cols-2">
