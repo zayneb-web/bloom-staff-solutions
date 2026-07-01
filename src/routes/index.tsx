@@ -48,6 +48,11 @@ import heroHotel from "@/assets/hero-hotel.jpg";
 import heroHospital from "@/assets/hero-hospital.jpg";
 import heroOffice from "@/assets/hero-office.jpg";
 import reemajHotelAsset from "@/assets/reemaj-hotel.jpeg.asset.json";
+import moduleStocksAsset from "@/assets/module-stocks.jpeg.asset.json";
+import moduleAccountsAsset from "@/assets/module-accounts.jpeg.asset.json";
+import modulePosAsset from "@/assets/module-pos.jpeg.asset.json";
+import moduleFinanceAsset from "@/assets/module-finance.png.asset.json";
+import moduleHrAsset from "@/assets/module-hr.png.asset.json";
 
 export const Route = createFileRoute("/")({
   head: () => ({
