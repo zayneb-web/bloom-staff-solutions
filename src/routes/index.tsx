@@ -1199,11 +1199,8 @@ function Index() {
       <Trust />
       <Clarity />
       <Features />
-      <Benefits />
-      <Industries />
-      <HowItWorks />
+      {/* Hidden per request: <Benefits />, <Industries />, <HowItWorks />, <Pricing /> */}
       <Testimonials />
-      <Pricing />
       <FinalCTA />
       <Contact />
       <Footer />
