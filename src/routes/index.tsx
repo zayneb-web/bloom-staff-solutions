@@ -1007,6 +1007,7 @@ function FinalCTA() {
 /* --------------------------------- Contact --------------------------------- */
 function Contact() {
   const { t } = useI18n();
+  const contactEmail = t.contact.mail;
   return (
     <section id="contact" className="py-24 sm:py-32">
       <div className="mx-auto max-w-7xl px-6 lg:px-12">
@@ -1021,21 +1022,23 @@ function Contact() {
             <p className="mt-4 text-lg text-muted-foreground">{t.contact.subtitle}</p>
             <form
               className="mt-8 space-y-4"
-              onSubmit={(e) => {
-                e.preventDefault();
-              }}
+              action={`https://formsubmit.co/${contactEmail}`}
+              method="POST"
             >
+              <input type="hidden" name="_subject" value="New demo request from Retex Solution website" />
+              <input type="hidden" name="_template" value="table" />
               <div className="grid gap-4 sm:grid-cols-2">
-                <Input placeholder={t.contact.name} className="h-12 rounded-xl" required />
+                <Input name="name" placeholder={t.contact.name} className="h-12 rounded-xl" required />
                 <Input
+                  name="email"
                   type="email"
                   placeholder={t.contact.email}
                   className="h-12 rounded-xl"
                   required
                 />
               </div>
-              <Input placeholder={t.contact.phone} className="h-12 rounded-xl" />
-              <Textarea placeholder={t.contact.message} rows={5} className="rounded-xl" />
+              <Input name="phone" placeholder={t.contact.phone} className="h-12 rounded-xl" />
+              <Textarea name="message" placeholder={t.contact.message} rows={5} className="rounded-xl" />
               <Button type="submit" variant="cta" size="lg" className="w-full sm:w-auto">
                 {t.contact.send} <ArrowRight className="size-4" />
               </Button>
