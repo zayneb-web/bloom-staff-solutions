@@ -43,6 +43,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
 import { I18nProvider, useI18n, type Lang } from "@/lib/i18n";
+import { sendContactAutoReply } from "@/lib/contact-auto-reply";
 
 import heroHotel from "@/assets/hero-hotel.jpg";
 import heroHospital from "@/assets/hero-hospital.jpg";
@@ -433,20 +434,23 @@ function Trust() {
 }
 
 /* ------------------------------- Clarity blocks ---------------------------- */
+// Asset filenames don't match screenshot content — map by what each file actually shows:
+// stocks file → chart of accounts | accounts file → financial form | finance file → payroll
+const moduleImages = {
+  stocks: moduleFinanceAsset.url,
+  accounts: moduleStocksAsset.url,
+  pos: modulePosAsset.url,
+  finance: moduleAccountsAsset.url,
+  hr: moduleHrAsset.url,
+} as const;
+
 function Clarity() {
   const { t } = useI18n();
   const icons = [BarChart3, Wallet, ShieldCheck, LineChart, Users];
-  const images = [
-    moduleStocksAsset.url,
-    moduleAccountsAsset.url,
-    modulePosAsset.url,
-    moduleFinanceAsset.url,
-    moduleHrAsset.url,
-  ];
   const blocks = t.clarity.blocks.map((b, i) => ({
     ...b,
     Icon: icons[i] ?? Sparkles,
-    image: images[i],
+    image: moduleImages[b.image],
   }));
   return (
     <section className="relative overflow-hidden bg-mesh py-24 sm:py-32">
@@ -1008,6 +1012,48 @@ function FinalCTA() {
 function Contact() {
   const { t } = useI18n();
   const contactEmail = t.contact.mail;
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitStatus, setSubmitStatus] = useState<"idle" | "success" | "error">("idle");
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const form = e.currentTarget;
+    const formData = new FormData(form);
+    setIsSubmitting(true);
+    setSubmitStatus("idle");
+
+    try {
+      const response = await fetch(`https://formsubmit.co/ajax/${contactEmail}`, {
+        method: "POST",
+        headers: { Accept: "application/json" },
+        body: formData,
+      });
+
+      if (!response.ok) throw new Error("Form submit failed");
+
+      const name = formData.get("name")?.toString() ?? "";
+      const email = formData.get("email")?.toString() ?? "";
+
+      if (email) {
+        await sendContactAutoReply({
+          data: {
+            to: email,
+            name,
+            subject: t.contact.autoReplySubject,
+            message: t.contact.autoReply,
+          },
+        });
+      }
+
+      form.reset();
+      setSubmitStatus("success");
+    } catch {
+      setSubmitStatus("error");
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
   return (
     <section id="contact" className="py-24 sm:py-32">
       <div className="mx-auto max-w-7xl px-6 lg:px-12">
@@ -1020,13 +1066,10 @@ function Contact() {
               {t.contact.title}
             </h2>
             <p className="mt-4 text-lg text-muted-foreground">{t.contact.subtitle}</p>
-            <form
-              className="mt-8 space-y-4"
-              action={`https://formsubmit.co/${contactEmail}`}
-              method="POST"
-            >
+            <form className="mt-8 space-y-4" onSubmit={handleSubmit}>
               <input type="hidden" name="_subject" value="New demo request from Retex Solution website" />
               <input type="hidden" name="_template" value="table" />
+              <input type="text" name="_honey" className="hidden" tabIndex={-1} autoComplete="off" />
               <div className="grid gap-4 sm:grid-cols-2">
                 <Input name="name" placeholder={t.contact.name} className="h-12 rounded-xl" required />
                 <Input
@@ -1039,8 +1082,14 @@ function Contact() {
               </div>
               <Input name="phone" placeholder={t.contact.phone} className="h-12 rounded-xl" />
               <Textarea name="message" placeholder={t.contact.message} rows={5} className="rounded-xl" />
-              <Button type="submit" variant="cta" size="lg" className="w-full sm:w-auto">
-                {t.contact.send} <ArrowRight className="size-4" />
+              <Button
+                type="submit"
+                variant="cta"
+                size="lg"
+                className="w-full sm:w-auto"
+                disabled={isSubmitting}
+              >
+                {isSubmitting ? t.contact.sending : t.contact.send} <ArrowRight className="size-4" />
               </Button>
             </form>
           </div>
@@ -1080,6 +1129,40 @@ function Contact() {
           </div>
         </div>
       </div>
+
+      {submitStatus !== "idle" && (
+        <div className="fixed inset-0 z-50 grid place-items-center bg-black/45 px-4 backdrop-blur-sm">
+          <Card className="w-full max-w-md rounded-3xl border-border/60 bg-card p-7 shadow-[var(--shadow-soft)]">
+            <div className="flex items-start gap-4">
+              <div
+                className={`grid size-12 shrink-0 place-items-center rounded-2xl ${
+                  submitStatus === "success"
+                    ? "bg-accent text-accent-foreground"
+                    : "bg-destructive/15 text-destructive"
+                }`}
+              >
+                {submitStatus === "success" ? <Check className="size-6" /> : <X className="size-6" />}
+              </div>
+              <div className="min-w-0">
+                <h3 className="text-xl font-bold tracking-tight">
+                  {submitStatus === "success" ? t.contact.successTitle : t.contact.errorMessage}
+                </h3>
+                {submitStatus === "success" && (
+                  <p className="mt-2 text-sm text-muted-foreground">{t.contact.successMessage}</p>
+                )}
+              </div>
+            </div>
+            <Button
+              type="button"
+              variant="cta"
+              className="mt-6 w-full"
+              onClick={() => setSubmitStatus("idle")}
+            >
+              {t.contact.close}
+            </Button>
+          </Card>
+        </div>
+      )}
     </section>
   );
 }
