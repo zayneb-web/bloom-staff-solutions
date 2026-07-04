@@ -486,12 +486,12 @@ function Clarity() {
                     imageLeft ? "order-1" : "order-1 lg:order-2"
                   }`}
                 >
-                  <div className="aspect-[4/3] overflow-hidden bg-gradient-to-br from-primary-soft to-accent-soft">
+                  <div className="bg-gradient-to-br from-primary-soft to-accent-soft">
                     <img
                       src={b.image}
                       alt={b.title}
                       loading="lazy"
-                      className="size-full object-contain"
+                      className="block h-auto w-full"
                     />
                   </div>
                 </div>
