@@ -83,9 +83,9 @@ export const translations = {
       ],
       blocks: [
         {
-          tag: "Stocks",
-          title: "Gestion des Stocks",
-          text: "Suivez les soldes de tous vos articles dans chaque entrepôt — valorisés au prix d'achat et de vente — avec inventaire périodique automatisé.",
+          tag: "Présence",
+          title: "Chaque présence comptée, chaque minute enregistrée",
+          text: "Connectez vos pointeuses biométriques et laissez la plateforme centraliser les présences en temps réel. Fini les feuilles Excel et les doutes.",
           image: "stocks",
         },
         {
