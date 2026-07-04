@@ -9,7 +9,7 @@ const autoReplyInput = z.object({
 });
 
 export const sendContactAutoReply = createServerFn({ method: "POST" })
-  .validator(autoReplyInput)
+  .inputValidator((data: unknown) => autoReplyInput.parse(data))
   .handler(async ({ data }) => {
     const apiKey = process.env.RESEND_API_KEY;
     if (!apiKey) {
