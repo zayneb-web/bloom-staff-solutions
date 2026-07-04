@@ -491,7 +491,7 @@ function Clarity() {
                       src={b.image}
                       alt={b.title}
                       loading="lazy"
-                      className="size-full object-cover object-top"
+                      className="size-full object-contain"
                     />
                   </div>
                 </div>

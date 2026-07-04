@@ -83,9 +83,9 @@ export const translations = {
       ],
       blocks: [
         {
-          tag: "Stocks",
-          title: "Gestion des Stocks",
-          text: "Suivez les soldes de tous vos articles dans chaque entrepôt — valorisés au prix d'achat et de vente — avec inventaire périodique automatisé.",
+          tag: "Présence",
+          title: "Chaque présence comptée, chaque minute enregistrée",
+          text: "Connectez vos pointeuses biométriques et laissez la plateforme centraliser les présences en temps réel. Fini les feuilles Excel et les doutes.",
           image: "stocks",
         },
         {
@@ -344,9 +344,9 @@ export const translations = {
       ],
       blocks: [
         {
-          tag: "Inventory",
-          title: "Inventory Management",
-          text: "Track every item balance across all stores — valued at purchase and selling price — with regular automated stock counts.",
+          tag: "Attendance",
+          title: "Every attendance counted, every minute logged",
+          text: "Connect your biometric devices and let the platform track attendance in real time. No more Excel sheets, no more doubts.",
           image: "stocks",
         },
         {
@@ -605,9 +605,9 @@ export const translations = {
       ],
       blocks: [
         {
-          tag: "المخازن",
-          title: "إدارة المخازن",
-          text: "تابع كل أرصدة أصنافك وقيمتها بسعر الشراء والبيع في المخازن المختلفة، مع عمل جرد دوري للأصناف.",
+          tag: "الحضور",
+          title: "كل حضور محسوب، كل دقيقة مسجلة",
+          text: "اربط أجهزة البصمة ودع المنصة تركز الحضور في الوقت الفعلي. لا مزيد من جداول Excel ولا شكوك.",
           image: "stocks",
         },
         {
