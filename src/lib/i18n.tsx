@@ -344,9 +344,9 @@ export const translations = {
       ],
       blocks: [
         {
-          tag: "Inventory",
-          title: "Inventory Management",
-          text: "Track every item balance across all stores — valued at purchase and selling price — with regular automated stock counts.",
+          tag: "Attendance",
+          title: "Every attendance counted, every minute logged",
+          text: "Connect your biometric devices and let the platform track attendance in real time. No more Excel sheets, no more doubts.",
           image: "stocks",
         },
         {
