@@ -73,7 +73,7 @@ export const translations = {
         "Suivi des soldes de stock",
         "Suivi des comptes clients & fournisseurs",
         "Suivi des achats par article",
-        "Analyse des ventes",
+        "Points de vente interactifs",
         "Plan comptable structuré",
         "Suivi des étapes de fabrication",
         "Horaires de présence des employés",
@@ -97,7 +97,7 @@ export const translations = {
         {
           tag: "Point de Vente",
           title: "Caisse & POS Interactif",
-          text: "Analyse des ventes avec suivi de la croissance par articles, mois, catégories et clients.",
+          text: "Points de vente interactifs avec suivi de la croissance par articles, mois, catégories et clients.",
           image: "pos",
         },
         {
@@ -334,7 +334,7 @@ export const translations = {
         "Stock balance tracking",
         "Customer & supplier account tracking",
         "Purchase tracking per item",
-        "Sales analysis",
+        "Interactive POS",
         "Structured chart of accounts",
         "Manufacturing stage tracking",
         "Employee attendance schedules",
@@ -358,7 +358,7 @@ export const translations = {
         {
           tag: "Point of Sale",
           title: "Interactive POS",
-          text: "Sales analysis with growth reports by items, months, categories and customers.",
+          text: "Interactive POS with growth reports by items, months, categories and customers.",
           image: "pos",
         },
         {
@@ -595,7 +595,7 @@ export const translations = {
         "متابعة أرصدة المخازن",
         "متابعة حسابات العملاء والموردين",
         "متابعة مشتريات الأصناف",
-        "تحليل المبيعات",
+        "نقاط البيع التفاعلية",
         "شجرة الدليل المحاسبي",
         "متابعة مراحل التصنيع",
         "مواعيد حضور وانصراف الموظفين",
@@ -619,7 +619,7 @@ export const translations = {
         {
           tag: "نقاط البيع",
           title: "نقاط البيع التفاعلية",
-          text: "تحليل المبيعات مع بيان نمو المبيعات بالأصناف والشهور والتصنيفات والعملاء.",
+          text: "نقاط البيع التفاعلية مع بيان نمو المبيعات بالأصناف والشهور والتصنيفات والعملاء.",
           image: "pos",
         },
         {
