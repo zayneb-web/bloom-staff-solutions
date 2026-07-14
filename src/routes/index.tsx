@@ -273,8 +273,8 @@ function Nav() {
     >
       <div className="mx-auto flex h-18 max-w-7xl items-center justify-between gap-4 px-4 py-3 sm:px-6 lg:px-12 lg:py-4">
         <a href="#top" onClick={() => setOpen(false)} className="flex items-center gap-2.5">
-          <div className="grid size-10 place-items-center overflow-hidden rounded-xl shadow-[var(--shadow-soft)]">
-            <img src={logoIcon} alt="" className="h-full w-full object-cover" />
+          <div className="grid size-12 place-items-center">
+            <img src={logoIcon} alt="" className="h-full w-full object-contain" />
           </div>
           <span
             className={`text-base font-extrabold tracking-tight sm:text-lg ${solid ? "text-foreground" : "text-white"}`}
@@ -1176,8 +1176,8 @@ function Footer() {
         <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-4">
           <div>
             <div className="flex items-center gap-2.5">
-              <div className="grid size-10 place-items-center overflow-hidden rounded-xl">
-                <img src={logoIcon} alt="" className="h-full w-full object-cover" />
+              <div className="grid size-12 place-items-center">
+                <img src={logoIcon} alt="" className="h-full w-full object-contain" />
               </div>
               <div>
                 <span className="text-lg font-extrabold">{t.brand.solution}</span>
