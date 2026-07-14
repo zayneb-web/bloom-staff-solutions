@@ -48,6 +48,7 @@ import { sendContactAutoReply } from "@/lib/contact-auto-reply";
 import heroHotel from "@/assets/hero-hotel.jpg";
 import heroHospital from "@/assets/hero-hospital.jpg";
 import heroOffice from "@/assets/hero-office.jpg";
+import logoIcon from "@/assets/logo-icon.png";
 import moduleStocksImg from "@/assets/module-stocks.jpeg";
 import moduleAccountsImg from "@/assets/module-accounts.jpeg";
 import modulePosImg from "@/assets/module-pos.jpeg";
@@ -272,8 +273,8 @@ function Nav() {
     >
       <div className="mx-auto flex h-18 max-w-7xl items-center justify-between gap-4 px-4 py-3 sm:px-6 lg:px-12 lg:py-4">
         <a href="#top" onClick={() => setOpen(false)} className="flex items-center gap-2.5">
-          <div className="grid size-10 place-items-center rounded-xl bg-gradient-to-br from-primary to-primary-deep text-white shadow-[var(--shadow-soft)]">
-            <span className="text-lg font-extrabold">R</span>
+          <div className="grid size-10 place-items-center overflow-hidden rounded-xl shadow-[var(--shadow-soft)]">
+            <img src={logoIcon} alt="" className="h-full w-full object-cover" />
           </div>
           <span
             className={`text-base font-extrabold tracking-tight sm:text-lg ${solid ? "text-foreground" : "text-white"}`}
@@ -1175,8 +1176,8 @@ function Footer() {
         <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-4">
           <div>
             <div className="flex items-center gap-2.5">
-              <div className="grid size-10 place-items-center rounded-xl bg-accent text-accent-foreground">
-                <span className="text-lg font-extrabold">R</span>
+              <div className="grid size-10 place-items-center overflow-hidden rounded-xl">
+                <img src={logoIcon} alt="" className="h-full w-full object-cover" />
               </div>
               <div>
                 <span className="text-lg font-extrabold">{t.brand.solution}</span>
