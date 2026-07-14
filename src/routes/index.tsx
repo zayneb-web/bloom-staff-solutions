@@ -48,12 +48,11 @@ import { sendContactAutoReply } from "@/lib/contact-auto-reply";
 import heroHotel from "@/assets/hero-hotel.jpg";
 import heroHospital from "@/assets/hero-hospital.jpg";
 import heroOffice from "@/assets/hero-office.jpg";
-import reemajHotelAsset from "@/assets/reemaj-hotel.jpeg.asset.json";
-import moduleStocksAsset from "@/assets/module-stocks.jpeg.asset.json";
-import moduleAccountsAsset from "@/assets/module-accounts.jpeg.asset.json";
-import modulePosAsset from "@/assets/module-pos.jpeg.asset.json";
-import moduleFinanceAsset from "@/assets/module-finance.png.asset.json";
-import moduleHrAsset from "@/assets/module-hr.png.asset.json";
+import moduleStocksImg from "@/assets/module-stocks.jpeg";
+import moduleAccountsImg from "@/assets/module-accounts.jpeg";
+import modulePosImg from "@/assets/module-pos.jpeg";
+import moduleFinanceImg from "@/assets/module-finance.png";
+import moduleHrImg from "@/assets/module-hr.png";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -437,11 +436,11 @@ function Trust() {
 // Asset filenames don't match screenshot content — map by what each file actually shows:
 // stocks file → chart of accounts | accounts file → financial form | finance file → payroll
 const moduleImages = {
-  stocks: moduleFinanceAsset.url,
-  accounts: moduleStocksAsset.url,
-  pos: modulePosAsset.url,
-  finance: moduleAccountsAsset.url,
-  hr: moduleHrAsset.url,
+  stocks: moduleFinanceImg,
+  accounts: moduleStocksImg,
+  pos: modulePosImg,
+  finance: moduleAccountsImg,
+  hr: moduleHrImg,
 } as const;
 
 function Clarity() {
@@ -778,7 +777,7 @@ const testimonialImages: readonly (string | null)[] = [
   null,
   null,
   null,
-  reemajHotelAsset.url,
+  null, // TODO: re-add once reemaj-hotel.jpeg is uploaded to src/assets
 ] as const;
 
 function TestimonialVideoCard({
